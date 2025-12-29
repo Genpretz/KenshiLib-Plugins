@@ -1,0 +1,24 @@
+# Build output
+/build/
+/bin/
+/out/
+
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.sln.docstates
+
+# Object files
+*.obj
+*.pch
+*.pdb
+*.idb
+
+# Libraries and binaries
+*.lib
+*.dll
+*.exe
+
+# OS
+Thumbs.db
+.DS_Store

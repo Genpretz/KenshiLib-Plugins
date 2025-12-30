@@ -1,5 +1,5 @@
 // FactionHealing.cpp - RE_Kenshi Plugin for Automatic Faction-Based Healing
-// Author: Matrix Agent - "Well, to be honest i don't want to improve, compile and test it, i don't have VS here and i'm too lazy for that. I'm also not familiar with Kenshi modding. So anyone can take the credit if that idea is possible."
+// Author: Matrix Agent
 // Edited by: Genpretz - "I needed to adjust the code in order to make it compatible with the v100 platform toolset."
 // Description: Allows player characters to automatically heal unconscious NPCs from selected factions
 

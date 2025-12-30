@@ -95,6 +95,11 @@ const char* ENABLED_FACTIONS[] =
 	 //"Fishermen"
 };
 
+// ============================================================================
+// FACTION CHECKING LOGIC
+// ============================================================================
+
+// Retrieves the list of enabled factions
 const std::vector<std::string>& GetEnabledFactions()
 {
 	static std::vector<std::string> factions;
@@ -107,19 +112,8 @@ const std::vector<std::string>& GetEnabledFactions()
 		for (size_t i = 0; i < count; ++i)
 			factions.push_back(ENABLED_FACTIONS[i]);
 	}
-
 	return factions;
 }
-
-
-
-
-// ============================================================================
-// HOOK IMPLEMENTATION
-// ============================================================================
-
-// Pointer to the original function
-bool (*shouldIHelpThisGuy_orig)(Character* thisptr, Character* who);
 
 // Checks if the faction is in the enabled list
 bool isFactionEnabled(const std::string& factionName)
@@ -137,6 +131,13 @@ bool isFactionEnabled(const std::string& factionName)
 
 	return false;
 }
+
+// ============================================================================
+// HOOK IMPLEMENTATION
+// ============================================================================
+
+// Pointer to the original function
+bool (*shouldIHelpThisGuy_orig)(Character* thisptr, Character* who);
 
 // Hook for shouldIHelpThisGuy function
 // This function is called when a character decides whether to help another
@@ -158,7 +159,7 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 	if (isFactionEnabled(factionName))
 	{
 		// Check if the character actually needs medical help
-		// (is unconscious or severely wounded)
+		// (is unconscious)
 		if (who->_NV_isUnconcious())
 		{
 			return true; // Force the character to help

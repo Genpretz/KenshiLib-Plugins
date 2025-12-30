@@ -25,11 +25,10 @@ More plugins will be added over time.
 
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.
 
-- KenshiLib 
-- RE_Kenshi
-- BFrizzlrFoShizzle – Primary author and maintainer of KenshiLib and RE_Kenshi  
+- KenshiLib - https://github.com/KenshiReclaimer/KenshiLib
+- RE_Kenshi - https://github.com/BFrizzleFoShizzle/RE_Kenshi
 
-BFrizzlrFoShizzle’s work is the reason native plugins such as these can exist at all, and this repository builds directly on that foundation.
+- BFrizzlrFoShizzle – Primary author and maintainer of KenshiLib and RE_Kenshi  
 
 ## Disclaimer
 

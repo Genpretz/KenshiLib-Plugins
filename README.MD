@@ -1,12 +1,12 @@
 # KenshiLib Plugins
 
-This repository contains a growing collection of native C++ plugins built on top of the Kenshi modding and reverse-engineering ecosystem. The goal is to provide gameplay extensions and experiments that integrate directly with Kenshi’s internal systems.
+This repository contains a small collection of mods for Kenshi written in C++ and utilizing KenshiLib and RE_Kenshi.
 
 ## Available Plugins
 
 ### Go Prone
 The first available plugin in this repository.  
-Go Prone introduces additional character behavior by interfacing directly with Kenshi’s internal state and animation logic.
+Go Prone introduces a now method of movement for the player character by allowing them to enter a prone position at will. Previously, the player could only do so in specific situations.
 
 More plugins will be added over time.
 
@@ -14,9 +14,9 @@ More plugins will be added over time.
 
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.
 
-- **KenshiLib** – Core native library exposing Kenshi internals  
-- **RE_Kenshi** – Reverse-engineering research and documentation  
-- **BFrizzlrFoShizzle** – Primary author and maintainer of KenshiLib and RE_Kenshi  
+- KenshiLib 
+- RE_Kenshi
+- BFrizzlrFoShizzle – Primary author and maintainer of KenshiLib and RE_Kenshi  
 
 BFrizzlrFoShizzle’s work is the reason native plugins such as these can exist at all, and this repository builds directly on that foundation.
 

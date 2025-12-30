@@ -16,7 +16,7 @@ More plugins will be added over time.
 
 ## Compilation Requirements
 
-  ## Requires:
+  - Requires:
       - Boost v1.60.0
       - KenshiLib v0.1.0 or Later
       - Visual Studio 2010 Platform Toolset

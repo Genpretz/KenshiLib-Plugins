@@ -15,9 +15,9 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 More plugins will be added over time.
 
 ## Compilation Requirements
-      - Boost v1.60.0
-      - KenshiLib v0.1.0 or Later
-      - Visual Studio 2010 Platform Toolset
+  - Boost v1.60.0
+  - KenshiLib v0.1.0 or Later
+  - Visual Studio 2010 Platform Toolset
   - Please check out this repo for more information and links: https://github.com/BFrizzleFoShizzle/KenshiLib_Examples_deps
 
 ## Credits and Acknowledgements

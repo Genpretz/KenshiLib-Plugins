@@ -24,9 +24,6 @@ More plugins will be added over time.
 
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.
 
-- [KenshiLib](https://github.com/KenshiReclaimer/KenshiLib) - Reconstruction of game structures and methods for Kenshi
-- [RE_Kenshi](https://github.com/BFrizzleFoShizzle/RE_Kenshi) - A Kenshi mod that expands functionality via code injection
-
 - [BFrizzlrFoShizzle](https://github.com/BFrizzleFoShizzle) – Primary author and maintainer of KenshiLib and RE_Kenshi  
 
 ## Disclaimer

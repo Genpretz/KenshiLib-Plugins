@@ -10,6 +10,7 @@
 #include <fstream>
 #include <algorithm>
 
+#include <Debug.h>
 #include <kenshi/Character.h>
 #include <kenshi/MedicalSystem.h>
 #include <kenshi/Faction.h>
@@ -120,9 +121,6 @@ const std::vector<std::string>& GetEnabledFactions()
 // HOOK IMPLEMENTATION
 // ============================================================================
 
-// Pointer to the original function
-bool (*shouldIHelpThisGuy_orig)(Character* thisptr, Character* who);
-
 // Checks if the faction is in the enabled list
 bool isFactionEnabled(const std::string& factionName)
 {
@@ -181,7 +179,7 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 __declspec(dllexport) void startPlugin()
 {
 	// Register the hook on shouldIHelpThisGuy function. If fails, send msg to RE_Kenshi log.
-	if (KenshiLib::SUCCESSS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy), shouldIHelpThisGuy_hook, &shouldIHelpThisGuy_orig)
+	if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy), shouldIHelpThisGuy_hook, &shouldIHelpThisGuy_orig))
 	{
 		ErrorLog("[Faction Healing Plugin] Failed to hook Character::shouldIHelpThisGuy.");
 	}

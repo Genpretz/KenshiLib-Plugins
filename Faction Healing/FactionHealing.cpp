@@ -156,7 +156,6 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 			return true; // Force the character to help
 		}
 	}
-
 	// Otherwise, use the game's default behavior
 	return shouldIHelpThisGuy_orig(thisptr, who);
 }
@@ -168,10 +167,9 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 // Exported function that RE_Kenshi calls when loading the plugin
 __declspec(dllexport) void startPlugin()
 {
-	// Register the hook on shouldIHelpThisGuy function
-	KenshiLib::AddHook(
-		KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy),
-		shouldIHelpThisGuy_hook,
-		&shouldIHelpThisGuy_orig
-	);
+	// Register the hook on shouldIHelpThisGuy function. If fails, send msg to RE_Kenshi log.
+	if (KenshiLib::SUCCESSS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy), shouldIHelpThisGuy_hook, &shouldIHelpThisGuy_orig)
+	{
+		ErrorLog("[Faction Healing Plugin] Failed to hook Character::shouldIHelpThisGuy.");
+	}
 }

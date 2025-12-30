@@ -13,6 +13,14 @@ Go Prone introduces a now method of movement for the player character by allowin
 
 More plugins will be added over time.
 
+## Compiling
+
+  - Requires:
+      - Boost v1.60.0
+      - KenshiLib v0.3.0 or Later
+      - Visual Studio 2010 Platform Toolset
+  - Please check out this repo for more information and links: https://github.com/BFrizzleFoShizzle/KenshiLib_Examples_deps
+
 ## Credits and Acknowledgements
 
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.

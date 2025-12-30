@@ -2,6 +2,9 @@
 
 This repository contains a small collection of mods for Kenshi written in C++ and utilizing KenshiLib and RE_Kenshi.
 
+## Requirements
+  - RE_Kenshi v0.3.0 or Later https://www.nexusmods.com/kenshi/mods/847?tab=files
+
 ## Available Plugins
 
 ### Go Prone

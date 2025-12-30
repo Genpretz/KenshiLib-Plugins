@@ -2,7 +2,7 @@
 // Author: Matrix Agent
 // Edited by: Genpretz - "I needed to adjust the code in order to make it compatible with the v100 platform toolset."
 // Description: Allows player characters to automatically heal unconscious NPCs from selected factions
-
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -19,7 +19,6 @@
 // LIST OF FACTIONS ENABLED FOR HEALING
 // Edit this file to add/remove factions
 // ============================================================================
-
 const char* ENABLED_FACTIONS[] =
 {
 	 //"Anti-Slavers",
@@ -102,18 +101,14 @@ const std::vector<std::string>& GetEnabledFactions()
 	
 	if (factions.empty())
 	{
-		const size_t count =
-			sizeof(ENABLED_FACTIONS) / sizeof(ENABLED_FACTIONS[0]);
+		const size_t count = sizeof(ENABLED_FACTIONS) / sizeof(ENABLED_FACTIONS[0]);
 
-		for (size_t i = 0; i < count; ++i)
+		for (size_t i = 0; i < count; ++i) {
 			factions.push_back(ENABLED_FACTIONS[i]);
+		}
 	}
-
 	return factions;
 }
-
-
-
 
 // ============================================================================
 // HOOK IMPLEMENTATION
@@ -127,15 +122,12 @@ bool isFactionEnabled(const std::string& factionName)
 {
 	const std::vector<std::string>& enabled = GetEnabledFactions();
 
-
-	for (std::vector<std::string>::const_iterator it = enabled.begin();
-		it != enabled.end();
-		++it)
+	for (std::vector<std::string>::const_iterator it = enabled.begin(); it != enabled.end(); ++it)
 	{
-		if (*it == factionName)
+		if (*it == factionName) {
 			return true;
+		}
 	}
-
 	return false;
 }
 
@@ -144,14 +136,14 @@ bool isFactionEnabled(const std::string& factionName)
 bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 {
 	// Null pointer validation
-	if (who == nullptr)
+	if (who == nullptr) {
 		return shouldIHelpThisGuy_orig(thisptr, who);
-
+	}
 	// Get the faction of the character needing help
 	Faction* targetFaction = who->getFaction();
-	if (targetFaction == nullptr)
+	if (targetFaction == nullptr) {
 		return shouldIHelpThisGuy_orig(thisptr, who);
-
+	}
 	// Get the faction name
 	const std::string& factionName = targetFaction->getName();
 
@@ -160,8 +152,7 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 	{
 		// Check if the character actually needs medical help
 		// (is unconscious or severely wounded)
-		if (who->_NV_isUnconcious())
-		{
+		if (who->_NV_isUnconcious()) {
 			return true; // Force the character to help
 		}
 	}

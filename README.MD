@@ -3,7 +3,8 @@
 This repository contains a small collection of mods for Kenshi written in C++ and utilizing KenshiLib and RE_Kenshi.
 
 ## Usage Requirements
-  - RE_Kenshi v0.3.0 or Later - [Nexus Mods](https://www.nexusmods.com/kenshi/mods/847?tab=files) or [Github](https://github.com/BFrizzleFoShizzle/RE_Kenshi/releases)
+  - RE_Kenshi v0.3.0 or Later
+      - Links: [Nexus Mods](https://www.nexusmods.com/kenshi/mods/847?tab=files) or [Github](https://github.com/BFrizzleFoShizzle/RE_Kenshi/releases)
 
 ## Available Plugins
 
@@ -15,7 +16,7 @@ More plugins will be added over time.
 
 ## Compilation Requirements
 
-  ### Requires:
+  ## Requires:
       - Boost v1.60.0
       - KenshiLib v0.1.0 or Later
       - Visual Studio 2010 Platform Toolset

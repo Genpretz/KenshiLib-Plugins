@@ -10,7 +10,7 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 
 ### Go Prone
   - The first available plugin in this repository.  
-  - Go Prone introduces a now method of movement for the player character by allowing them to enter a prone position at will. Previously, the player could only do so in specific situations.
+  - Go Prone introduces a new method of stealth movement for the player character by allowing them to enter a prone position at will. Previously, the player could only do so in specific situations.
 
 More plugins will be added over time.
 

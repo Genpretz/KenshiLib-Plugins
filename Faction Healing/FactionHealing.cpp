@@ -2,6 +2,7 @@
 // Author: Matrix Agent
 // Edited by: Genpretz - "I needed to adjust the code in order to make it compatible with the v100 platform toolset."
 // Description: Allows player characters to automatically heal unconscious NPCs from selected factions
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <string>

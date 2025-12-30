@@ -3,7 +3,7 @@
 This repository contains a small collection of mods for Kenshi written in C++ and utilizing KenshiLib and RE_Kenshi.
 
 ## Usage Requirements
-  - RE_Kenshi v0.3.0 or Later https://www.nexusmods.com/kenshi/mods/847?tab=files
+  - RE_Kenshi v0.3.0 or Later - [Nexus Mods](https://www.nexusmods.com/kenshi/mods/847?tab=files) or [Github](https://github.com/BFrizzleFoShizzle/RE_Kenshi/releases)
 
 ## Available Plugins
 
@@ -25,10 +25,10 @@ More plugins will be added over time.
 
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.
 
-- KenshiLib - https://github.com/KenshiReclaimer/KenshiLib
-- RE_Kenshi - https://github.com/BFrizzleFoShizzle/RE_Kenshi
+- [KenshiLib](https://github.com/KenshiReclaimer/KenshiLib) - Reconstruction of game structures and methods for Kenshi
+- [RE_Kenshi](https://github.com/BFrizzleFoShizzle/RE_Kenshi) - A Kenshi mod that expands functionality via code injection
 
-- BFrizzlrFoShizzle – Primary author and maintainer of KenshiLib and RE_Kenshi  
+- [BFrizzlrFoShizzle](https://github.com/BFrizzleFoShizzle) – Primary author and maintainer of KenshiLib and RE_Kenshi  
 
 ## Disclaimer
 

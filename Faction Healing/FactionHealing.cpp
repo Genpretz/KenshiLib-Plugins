@@ -117,10 +117,6 @@ const std::vector<std::string>& GetEnabledFactions()
 	return factions;
 }
 
-// ============================================================================
-// HOOK IMPLEMENTATION
-// ============================================================================
-
 // Checks if the faction is in the enabled list
 bool isFactionEnabled(const std::string& factionName)
 {
@@ -162,7 +158,7 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 	if (isFactionEnabled(factionName))
 	{
 		// Check if the character actually needs medical help
-		// (is unconscious or severely wounded)
+		// (is unconscious or severely wounded) - Genpretz-"Couldn't find 2nd function so currently only checking unconscious"
 		if (who->_NV_isUnconcious()) {
 			return true; // Force the character to help
 		}
@@ -178,7 +174,7 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 // Exported function that RE_Kenshi calls when loading the plugin
 __declspec(dllexport) void startPlugin()
 {
-	// Register the hook on shouldIHelpThisGuy function. If fails, send msg to RE_Kenshi log.
+	// Register the hook on shouldIHelpThisGuy function. If fails, send error msg to RE_Kenshi log.
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy), shouldIHelpThisGuy_hook, &shouldIHelpThisGuy_orig))
 	{
 		ErrorLog("[Faction Healing Plugin] Failed to hook Character::shouldIHelpThisGuy.");

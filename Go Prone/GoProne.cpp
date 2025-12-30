@@ -91,6 +91,6 @@ __declspec(dllexport) void __cdecl startPlugin()
 
     if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&InputHandler::keyDownEvent), InputHandler_keyDownEvent_hook, &InputHandler_keyDownEvent_orig))
     {
-        ErrorLog("GoProne: Could not hook InputHandler::keyDownEvent");
+        ErrorLog("[Go Prone Plugin] - Could not hook InputHandler::keyDownEvent");
     }
 }

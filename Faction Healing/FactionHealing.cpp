@@ -1,7 +1,9 @@
 // FactionHealing.cpp - RE_Kenshi Plugin for Automatic Faction-Based Healing
 // Author: Matrix Agent
+// Edited by: Genpretz - "I needed to adjust the code in order to make it compatible with the v100 platform toolset."
 // Description: Allows player characters to automatically heal unconscious NPCs from selected factions
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -18,7 +20,6 @@
 // LIST OF FACTIONS ENABLED FOR HEALING
 // Edit this file to add/remove factions
 // ============================================================================
-
 const char* ENABLED_FACTIONS[] =
 {
 	 //"Anti-Slavers",
@@ -106,29 +107,33 @@ const std::vector<std::string>& GetEnabledFactions()
 	
 	if (factions.empty())
 	{
-		const size_t count =
-			sizeof(ENABLED_FACTIONS) / sizeof(ENABLED_FACTIONS[0]);
+		const size_t count = sizeof(ENABLED_FACTIONS) / sizeof(ENABLED_FACTIONS[0]);
 
-		for (size_t i = 0; i < count; ++i)
+		for (size_t i = 0; i < count; ++i) {
 			factions.push_back(ENABLED_FACTIONS[i]);
+		}
 	}
 	return factions;
 }
+
+// ============================================================================
+// HOOK IMPLEMENTATION
+// ============================================================================
+
+// Pointer to the original function
+bool (*shouldIHelpThisGuy_orig)(Character* thisptr, Character* who);
 
 // Checks if the faction is in the enabled list
 bool isFactionEnabled(const std::string& factionName)
 {
 	const std::vector<std::string>& enabled = GetEnabledFactions();
 
-
-	for (std::vector<std::string>::const_iterator it = enabled.begin();
-		it != enabled.end();
-		++it)
+	for (std::vector<std::string>::const_iterator it = enabled.begin(); it != enabled.end(); ++it)
 	{
-		if (*it == factionName)
+		if (*it == factionName) {
 			return true;
+		}
 	}
-
 	return false;
 }
 
@@ -144,14 +149,14 @@ bool (*shouldIHelpThisGuy_orig)(Character* thisptr, Character* who);
 bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 {
 	// Null pointer validation
-	if (who == nullptr)
+	if (who == nullptr) {
 		return shouldIHelpThisGuy_orig(thisptr, who);
-
+	}
 	// Get the faction of the character needing help
 	Faction* targetFaction = who->getFaction();
-	if (targetFaction == nullptr)
+	if (targetFaction == nullptr) {
 		return shouldIHelpThisGuy_orig(thisptr, who);
-
+	}
 	// Get the faction name
 	const std::string& factionName = targetFaction->getName();
 
@@ -159,13 +164,11 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 	if (isFactionEnabled(factionName))
 	{
 		// Check if the character actually needs medical help
-		// (is unconscious)
-		if (who->_NV_isUnconcious())
-		{
+		// (is unconscious or severely wounded)
+		if (who->_NV_isUnconcious()) {
 			return true; // Force the character to help
 		}
 	}
-
 	// Otherwise, use the game's default behavior
 	return shouldIHelpThisGuy_orig(thisptr, who);
 }
@@ -177,10 +180,9 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 // Exported function that RE_Kenshi calls when loading the plugin
 __declspec(dllexport) void startPlugin()
 {
-	// Register the hook on shouldIHelpThisGuy function
-	KenshiLib::AddHook(
-		KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy),
-		shouldIHelpThisGuy_hook,
-		&shouldIHelpThisGuy_orig
-	);
+	// Register the hook on shouldIHelpThisGuy function. If fails, send msg to RE_Kenshi log.
+	if (KenshiLib::SUCCESSS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Character::shouldIHelpThisGuy), shouldIHelpThisGuy_hook, &shouldIHelpThisGuy_orig)
+	{
+		ErrorLog("[Faction Healing Plugin] Failed to hook Character::shouldIHelpThisGuy.");
+	}
 }

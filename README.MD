@@ -16,6 +16,7 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 ### Faction Healing
   - Made by Matrix Agent
   - Edited by Genpretz - "I cant tell if it needs work or not. I had to make some changes in order to compile it, but I think the shouldIHelpThisGuy function isn't used the way one might assume."
+
 More plugins will be added over time.
 
 ## Compilation Requirements

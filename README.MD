@@ -11,7 +11,11 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 ### Go Prone
   - The first available plugin in this repository.  
   - Go Prone introduces a new method of stealth movement for the player character by allowing them to enter a prone position at will. Previously, the player could only do so in specific situations.
-
+### Eyes Inventory Slot
+  - Adds a new inventory slot for eyewear like the Ashlander Stormgoggles and Square Goggles. Any 3x1 piece of headgear will fit in the new slot.
+### Faction Healing
+  - Made by Matrix Agent
+  - Edited by Genpretz - "I cant tell if it needs work or not. I had to make some changes in order to compile it, but I think the shouldIHelpThisGuy function isn't used the way one might assume."
 More plugins will be added over time.
 
 ## Compilation Requirements

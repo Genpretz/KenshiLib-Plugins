@@ -15,14 +15,18 @@ bool Character_setupInventorySections_Hook(Character* thisptr, GameSaveState* st
 	return result;
 }
 
-void CallHooks_Inv()
+__declspec(dllexport) void startPlugin()
 {
 	if (KenshiLib::SUCCESS == KenshiLib::AddHook(
 		KenshiLib::GetRealAddress(&Character::_NV_setupInventorySections),
 		&Character_setupInventorySections_Hook,
 		&Character_setupInventorySections_orig))
 	{
-		ErrorLog("Character::_NV_setupInventorySections Hooked successfully.\n");
+		DebugLog("[Eyes Inventory Slot Plugin] Character::_NV_setupInventorySections Hooked successfully.\n");
 	}
-}
+	else
+	{
+		ErrorLog("[Eyes Inventory Slot Plugin] failed to hook Character::_NV_setupInventorySections.\n");
+	}
+};
 

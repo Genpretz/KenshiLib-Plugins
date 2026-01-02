@@ -1,3 +1,8 @@
 {
 	"Plugins" : [ "Eyes Inventory Slot.dll" ]
 }
+{
+	"FileRebinds" : {
+		".\/data\/gui\/layout\/Kenshi_InventoryCharacterWindow.layout" : "$(modroot \"Eyes Inventory Slot Plugin\")/custom_eyes_character_inventory_slot.layout"
+	}
+}

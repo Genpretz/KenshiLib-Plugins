@@ -3,18 +3,9 @@
 // Edited by: Genpretz - "I needed to adjust the code in order to make it compatible with the v100 platform toolset."
 // Description: Allows player characters to automatically heal unconscious NPCs from selected factions
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <algorithm>
-
 #include <Debug.h>
 #include <kenshi/Character.h>
-#include <kenshi/MedicalSystem.h>
 #include <kenshi/Faction.h>
-#include <kenshi/Globals.h>
 #include <core/Functions.h>
 
 // ============================================================================
@@ -34,7 +25,7 @@ const char* ENABLED_FACTIONS[] =
 	 //"Bloodraiders",
 	 //"Bounty Hunters",
 	 //"Cannibal Hunters",
-	 //"Cannibals",
+	 "Cannibals",
 	 //"Crab Raiders",
 	 //"Deadcat",
 	 //"Drifters",
@@ -54,6 +45,7 @@ const char* ENABLED_FACTIONS[] =
 	 //"Manhunters",
 	 //"Mercenary Guild",
 	 //"Mongrel",
+	 "Nameless",
 	 //"Nomads",
 	 //"Outlaw",
 	 //"Police",
@@ -84,12 +76,12 @@ const char* ENABLED_FACTIONS[] =
 	 //"Swampers",
 	 //"Tech Hunters",
 	 //"The Gorrillo Bandits",
-	 "The Holy Nation",
+	 //"The Holy Nation",
 	 //"Thrall Masters",
 	 //"Trade Ninjas",
 	 //"Traders Guild",
 	 //"Twinblades",
-	 "United Cities",
+	 //"United Cities",
 	 //"United Heroes League",
 	 //"Vagrants",
 	 //"Western Hive",
@@ -158,8 +150,8 @@ bool shouldIHelpThisGuy_hook(Character* thisptr, Character* who)
 	if (isFactionEnabled(factionName))
 	{
 		// Check if the character actually needs medical help
-		// (is unconscious or severely wounded) - Genpretz-"Couldn't find 2nd function so currently only checking unconscious"
-		if (who->_NV_isUnconcious()) {
+		// (is unconscious or severely wounded) - Genpretz-"Couldn't find original 2nd function condition, so I assumed these are the intended checks."
+		if (who->_NV_isUnconcious() || who->isInjured(false) || who->isInjured(true)) {
 			return true; // Force the character to help
 		}
 	}

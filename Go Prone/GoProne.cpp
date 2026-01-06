@@ -1,6 +1,3 @@
-#define WIN32_LEAN_AND_MEAN  
-#include <windows.h>
-
 #include <Debug.h>
 
 #include <core/Functions.h>
@@ -24,28 +21,28 @@ static void ToggleCharacterProneState()
     Character* c = ou->player->selectedCharacter.getCharacter();
     if (!c)
     {
-        OutputDebugStringW(L"No selected character found.\n");
+        ErrorLog("[Go Prone Plugin] No selected character found.\n");
         return;
     }
 
     switch (c->_NV_getProneState())
     {
     case PS_NORMAL:
-        OutputDebugStringW(L"PS_NORMAL -> PS_STAYING_LOW\n");
+        DebugLog("[Go Prone Plugin] PS_NORMAL -> PS_STAYING_LOW\n");
         c->setStealthMode(true);
         c->_NV_setProneState(PS_STAYING_LOW);
         break;
 
     case PS_STAYING_LOW:
-        OutputDebugStringW(L"PS_STAYING_LOW -> PS_NORMAL\n");
+        DebugLog("[Go Prone Plugin] PS_STAYING_LOW -> PS_NORMAL\n");
         c->_NV_setProneState(PS_NORMAL);
-        c->setStealthMode(true);
+        c->setStealthMode(false);
         break;
 
     case PS_PLAYING_DEAD:
     case PS_CRIPPLED:
     case PS_KO:
-        OutputDebugStringW(L"Leaving proneState as is, let Kenshi do things as normaln");
+        DebugLog("[Go Prone Plugin] Leaving proneState as is.\n");
         break;
 
     default:

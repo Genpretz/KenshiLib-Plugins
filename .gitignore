@@ -70,3 +70,7 @@ Desktop.ini
 .DS_Store
 /Eyes Inventory Slot/Eyes Inventory Slot Plugin/custom_eyes_character_inventory_slot.layout.bak
 /Eyes Inventory Slot/Eyes Inventory Slot Plugin/RE_Kenshi.json.bak
+/Extra Inventory Sections/ExtraInventorySections (Gloves+Neck).cpp.bak
+/Extra Inventory Sections/ExtraInventorySections2.cpp
+/Extra Inventory Sections/NeckInventorySlot.cpp
+*.filters

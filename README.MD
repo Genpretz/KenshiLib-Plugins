@@ -4,18 +4,18 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 
 ## Usage Requirements
   - RE_Kenshi v0.3.0 or Later
-      - Links: [Nexus Mods](https://www.nexusmods.com/kenshi/mods/847?tab=files) or [Github](https://github.com/BFrizzleFoShizzle/RE_Kenshi/releases)
+      - Links: [Nexus Mods](https://www.nexusmods.com/kenshi/mods/847) or [Github](https://github.com/BFrizzleFoShizzle/RE_Kenshi/releases)
 
 ## Available Plugins
 
 ### Go Prone
   - The first available plugin in this repository.  
   - Go Prone introduces a new method of stealth movement for the player character by allowing them to enter a prone position at will. Previously, the player could only do so in specific situations.
-### Eyes Inventory Slot
-  - Adds a new inventory slot for eyewear like the Ashlander Stormgoggles and Square Goggles. Any 3x1 piece of headgear will fit in the new slot.
+### Extra Inventory Sections
+  - Adds at least 3 new inventory sections for characters. These being Eyes, Hands, and Neck inventory sections. When modding Kenshi with the FCS there are ATTACH_SLOTS available that were unused in the game. Three of those being ATTACH_EYES, ATTACH_GLOVES, ATTACH_NECK. These new inventory slots are now tied to these enums and usable.
 ### Faction Healing
-  - Made by Matrix Agent
-  - Edited by Genpretz - "I cant tell if it needs work or not. I had to make some changes in order to compile it, but I think the shouldIHelpThisGuy function isn't used the way one might assume."
+  - Made by Matrix Agent, Edited by Genpretz
+  - It's supposed to force NPC's to heal characters depending on faction, but it needs some work.
 
 More plugins will be added over time.
 

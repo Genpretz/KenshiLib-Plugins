@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Go Prone", "Go Prone\Go Pro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Faction Healing", "Faction Healing\Faction Healing.vcxproj", "{498BB183-0F28-4AD8-B992-00ECBDD68367}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Eyes Inventory Slot", "Eyes Inventory Slot\Eyes Inventory Slot.vcxproj", "{22F0CC14-0658-4180-9A6D-D2B6A5314984}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Extra Inventory Sections", "Extra Inventory Sections\Extra Inventory Sections.vcxproj", "{22F0CC14-0658-4180-9A6D-D2B6A5314984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,15 +1,23 @@
-// NeckAndGlovesTestPlugin.cpp
-// VS2010-safe. Ensures NECK + GLOVES sections exist early enough to restore items from saves.
-
 #include <Debug.h>
 #include <core/Functions.h>
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
 
-// ---------- Create ONLY neck + gloves ----------
 static void ensureExtraInventorySections(Inventory* inv)
 {
 	if (!inv) return;
+
+	// * For some reason eyes_eyes and eyes_hats sections lead to crashes, so they are disabled for now. * //
+
+	//if (!inv->getSection("eyes_eyes"))
+	//{
+	//	inv->_NV_initialiseNewSection(
+	//		"eyes_eyes",
+	//		3, 1,
+	//		ATTACH_EYES,
+	//		true, false, true,
+	//		1);
+	//}
 
 	if (!inv->getSection("eyes_belts"))
 	{
@@ -20,6 +28,16 @@ static void ensureExtraInventorySections(Inventory* inv)
 			true, false, true,
 			1);
 	}
+
+	//if (!inv->getSection("eyes_hats"))
+	//{
+	//	inv->_NV_initialiseNewSection(
+	//		"eyes_hats",
+	//		3, 1,
+	//		ATTACH_HAT,
+	//		true, false, true,
+	//		1);
+	//}
 
 	if (!inv->getSection("neck"))
 	{
@@ -42,7 +60,7 @@ static void ensureExtraInventorySections(Inventory* inv)
 	}
 }
 
-// ---------- Hooks ----------
+// Hooks
 bool (*Character_NV_setupInventorySections_orig)(Character* thisptr, GameSaveState* state) = 0;
 void (*Character_NV_loadFromSerialise_orig)(Character* thisptr, GameSaveState* state) = 0;
 
@@ -68,7 +86,7 @@ void Character_NV_loadFromSerialise_Hook(Character* thisptr, GameSaveState* stat
 	Character_NV_loadFromSerialise_orig(thisptr, state);
 }
 
-// ---------- Startup ----------
+// Startup
 __declspec(dllexport) void startPlugin()
 {
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(

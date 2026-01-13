@@ -1,100 +1,96 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.1">
-    <Widget type="Window" skin="Kenshi_WindowCXP" position_real="0 0 0.259375 0.57037" layer="Window" name="Root">
+    <Widget type="Window" skin="Kenshi_WindowCXP" position_real="0 0 0.259375 0.569444" layer="Window" name="Root">
         <Property key="Caption" value="INVENTORY"/>
         <Widget type="Widget" skin="PanelEmpty" position_real="0 0 0.987805 1" align="Stretch">
-            <Widget type="Button" skin="Kenshi_Button1" position_real="0.0144033 0.0402802 0.22428 0.0788091" name="OpenBagButton">
+            <Widget type="Button" skin="Kenshi_Button1" position_real="0.0144033 0.0385965 0.22428 0.077193" name="OpenBagButton">
                 <Property key="Caption" value="OPEN BAG"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.271605 0.0402802 0.240741 0.168126" name="backpack_attach"/>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.240741 0.00700525 0.294239 0.028021" name="lbBackpack">
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.271605 0.0385965 0.240741 0.166667" name="backpack_attach"/>
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.240741 0.00526316 0.294239 0.0263158" name="lbBackpack">
                 <Property key="Caption" value="BACKPACK"/>
                 <Property key="TextAlign" value="Center"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0144033 0.25394 0.506173 0.0788091" name="back"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0308642 0.483363 0.197531 0.0788091" name="shirt"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.3107 0.521891 0.197531 0.124343" name="head"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0308642 0.619965 0.197531 0.210158" name="legs"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0308642 0.882662 0.197531 0.0788091" name="boots"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.3107 0.707531 0.197531 0.25394" name="armour"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.495622 0.390947 0.42732" name="main"/>
-            <Widget type="Widget" skin="Kenshi_GenericTextBoxSkin" position_real="0.559671 0.0122592 0.390947 0.297723">
-                <Widget type="Widget" skin="Kenshi_TextBoxEmptySkin" position_real="0.0157895 0.0352941 0.889474 0.876471" name="datapanel"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0144033 0.252632 0.506173 0.077193" name="back"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0308642 0.482456 0.197531 0.077193" name="shirt"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.3107 0.521053 0.197531 0.122807" name="head"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0308642 0.619298 0.197531 0.208772" name="legs"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0308642 0.882456 0.197531 0.077193" name="boots"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.3107 0.707018 0.197531 0.252632" name="armour"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.494737 0.390947 0.426316" name="main"/>
+            <Widget type="Widget" skin="Kenshi_GenericTextBoxSkin" position_real="0.559671 0.0105263 0.390947 0.296491">
+                <Widget type="Widget" skin="Kenshi_TextBoxEmptySkin" position_real="0.0157895 0.0295858 0.889474 0.87574" name="datapanel"/>
             </Widget>
-            <Widget type="Button" skin="Kenshi_Button1" position_real="0.646091 0.93345 0.220165 0.0455341" name="ArrangeButton">
+            <Widget type="Button" skin="Kenshi_Button1" position_real="0.646091 0.933333 0.220165 0.0438596" name="ArrangeButton">
                 <Property key="Caption" value="ARRANGE"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.555556 0.460595 0.390947 0.028021" name="InventoryMainTitle">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.555556 0.459649 0.390947 0.0263158" name="InventoryMainTitle">
                 <Property key="Caption" value="INVENTORY"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.224168 0.506173 0.028021" name="lbWeapon1">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.222807 0.506173 0.0263158" name="lbWeapon1">
                 <Property key="Caption" value="WEAPON I"/>
                 <Property key="TextAlign" value="Left VCenter"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.448336 0.22428 0.028021" name="lbShirt">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.447368 0.22428 0.0263158" name="lbShirt">
                 <Property key="Caption" value="SHIRT"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.300412 0.490368 0.22428 0.028021" name="lbHead">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.300412 0.489474 0.22428 0.0263158" name="lbHead">
                 <Property key="Caption" value="HEAD"/>
                 <Property key="TextAlign" value="Center"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.58669 0.22428 0.028021" name="lbPants">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.585965 0.22428 0.0263158" name="lbPants">
                 <Property key="Caption" value="PANTS"/>
                 <Property key="TextAlign" value="Center"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.300412 0.674256 0.22428 0.028021" name="lbArmor">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.300412 0.673684 0.22428 0.0263158" name="lbArmor">
                 <Property key="Caption" value="ARMOR"/>
                 <Property key="TextAlign" value="Center"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.851138 0.22428 0.028021" name="lbBoots">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.850877 0.22428 0.0263158" name="lbBoots">
                 <Property key="Caption" value="BOOTS"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0144033 0.388792 0.351852 0.033275" name="hip"/>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.357268 0.351852 0.028021" name="lbWeapon2">
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.0144033 0.387719 0.351852 0.0315789" name="hip"/>
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.0144033 0.35614 0.351852 0.0263158" name="lbWeapon2">
                 <Property key="Caption" value="WEAPON II"/>
                 <Property key="TextAlign" value="Left VCenter"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
             </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.374486 0.357268 0.197531 0.028021" name="lbBelt">
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.374486 0.35614 0.197531 0.0263158" name="lbBelt">
                 <Property key="Caption" value="BELT"/>
                 <Property key="TextColour" value="0.327485 0.284279 0.23556"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.427984 0.388792 0.0925926 0.0788091" name="belt"/>
-            <Widget type="Button" skin="Kenshi_Button1" position_real="0.0144033 0.134851 0.230453 0.0507881" name="LimbsButton">
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.427984 0.387719 0.0925926 0.077193" name="belt"/>
+            <Widget type="Button" skin="Kenshi_Button1" position_real="0.0144033 0.133333 0.230453 0.0491228" name="LimbsButton">
                 <Property key="Caption" value="LIMBS"/>
                 <Property key="Visible" value="true"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.341506 0.150206 0.0262697" name="eyes_eyes">
-                <Property key="Colour" value="0.467836 0.456893 0.456893"/>
-            </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.385289 0.150206 0.0262697" name="eyes_belts"/>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.429072 0.150206 0.0262697" name="eyes_hats">
-                <Property key="Colour" value="0.467836 0.456893 0.456893"/>
-            </Widget>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.555556 0.30648 0.150206 0.0315236" name="lbEyes">
-                <Property key="Caption" value="Eyes"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.340351 0.150206 0.0280702" name="eyes_eyes"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.384211 0.150206 0.0245614" name="eyes_belts"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.555556 0.42807 0.150206 0.0245614" name="eyes_hats"/>
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.555556 0.305263 0.150206 0.0298246" name="lbEyes">
+                <Property key="Caption" value="EYES"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.730453 0.341506 0.0925926 0.0770578" name="gloves"/>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.720165 0.30648 0.106996 0.0315236" name="lbGloves">
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.730453 0.340351 0.0925926 0.0754386" name="gloves"/>
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.720165 0.305263 0.106996 0.0298246" name="lbGloves">
                 <Property key="TextAlign" value="Center"/>
-                <Property key="Caption" value="Hands"/>
+                <Property key="Caption" value="HANDS"/>
             </Widget>
-            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.853909 0.341506 0.0925926 0.0770578" name="neck"/>
-            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.853909 0.30648 0.0925926 0.0315236" name="lbNeck">
-                <Property key="Caption" value="Neck"/>
+            <Widget type="Widget" skin="Kenshi_InventorySlotSkin" position_real="0.851852 0.340351 0.0925926 0.0754386" name="neck"/>
+            <Widget type="TextBox" skin="Kenshi_TextboxPaintedText" position_real="0.851852 0.305263 0.0925926 0.0298246" name="lbNeck">
+                <Property key="Caption" value="NECK"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
         </Widget>

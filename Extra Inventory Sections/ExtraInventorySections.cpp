@@ -1,76 +1,97 @@
+// ExtraInventorySections_Release.cpp
+//
+// Release build (minimal logging):
+//   1) Ensures your extra inventory sections exist
+//   2) Resizes them during Character::_NV_setupInventorySections (load-time path)
+//   3) Prevents duplicated AttachSlot sections from hijacking equip routing by forcing
+//      Inventory::getSectionOfType(ATTACH_HAT) -> "head" and ATTACH_BELT -> "belt"
+//
+// VS2010-safe.
+
 #include <Debug.h>
 #include <core/Functions.h>
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
+#include <kenshi/GameSaveState.h>
 
-static void ensureExtraInventorySections(Inventory* inv)
+#include <string>
+#include <cstring> // strlen
+
+#include <ogre/OgreMemoryAllocatorConfig.h> // Ogre::STLAllocator
+#include <boost/unordered/unordered_map.hpp>
+#include <boost/functional/hash.hpp>
+
+// -----------------------------
+// Section creation / resize logic
+// -----------------------------
+static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 {
 	if (!inv) return;
 
-	// * For some reason eyes_eyes and eyes_hats sections lead to crashes, so they are disabled for now. * //
+	struct SectionInfo {
+		const char* name;
+		int width;
+		int height;
+		AttachSlot slot;
+		bool equipCallbacks;
+		int limit;
+	};
 
-	//if (!inv->getSection("eyes_eyes"))
-	//{
-	//	inv->_NV_initialiseNewSection(
-	//		"eyes_eyes",
-	//		3, 1,
-	//		ATTACH_EYES,
-	//		true, false, true,
-	//		1);
-	//}
+	// NOTE:
+	// eyes_hats uses ATTACH_HAT, but equip routing is forced back to "head" in getSectionOfType hook.
+	static const SectionInfo sections[] = {
+		{"eyes_eyes",  3, 1, ATTACH_EYES,   true, 1},
+		{"eyes_belts", 3, 1, ATTACH_BELT,   true, 1},
+		{"eyes_hats",  3, 1, ATTACH_HAT,    true, 1},
+		{"neck",       2, 2, ATTACH_NECK,   true, 1},
+		{"gloves",     2, 2, ATTACH_GLOVES, true, 4}
+	};
 
-	if (!inv->getSection("eyes_belts"))
+	const int count = (int)(sizeof(sections) / sizeof(sections[0]));
+	for (int i = 0; i < count; ++i)
 	{
-		inv->_NV_initialiseNewSection(
-			"eyes_belts",
-			3, 1,
-			ATTACH_BELT,
-			true, false, true,
-			1);
-	}
+		const SectionInfo& s = sections[i];
 
-	//if (!inv->getSection("eyes_hats"))
-	//{
-	//	inv->_NV_initialiseNewSection(
-	//		"eyes_hats",
-	//		3, 1,
-	//		ATTACH_HAT,
-	//		true, false, true,
-	//		1);
-	//}
-
-	if (!inv->getSection("neck"))
-	{
-		inv->_NV_initialiseNewSection(
-			"neck",
-			2, 2,
-			ATTACH_NECK,
-			true, false, true,
-			1);
-	}
-
-	if (!inv->getSection("gloves"))
-	{
-		inv->_NV_initialiseNewSection(
-			"gloves",
-			2, 2,
-			ATTACH_GLOVES,
-			true, false, true,
-			4);
+		InventorySection* section = inv->getSection(s.name);
+		if (!section)
+		{
+			// Create section if missing.
+			inv->_NV_initialiseNewSection(
+				s.name,
+				s.width,
+				s.height,
+				s.slot,
+				s.equipCallbacks,
+				false, // isContainerSlot
+				true,  // enabled
+				s.limit
+			);
+		}
+		else if (isLoading)
+		{
+			// Resize on load-time path to keep save compatibility and keep dimensions consistent.
+			// InventorySection::resize is protected; use Inventory::resizeSection (public).
+			inv->resizeSection(section, s.width, s.height, false /*clearContent*/);
+		}
 	}
 }
 
-// Hooks
+// -----------------------------
+// Hooks: Character inventory lifecycle
+// -----------------------------
 bool (*Character_NV_setupInventorySections_orig)(Character* thisptr, GameSaveState* state) = 0;
 void (*Character_NV_loadFromSerialise_orig)(Character* thisptr, GameSaveState* state) = 0;
 
 bool Character_NV_setupInventorySections_Hook(Character* thisptr, GameSaveState* state)
 {
+	// Call original first to restore vanilla inventory sections.
 	bool result = Character_NV_setupInventorySections_orig(thisptr, state);
 
-	if (thisptr && thisptr->_NV_getInventory())
+	Inventory* inv = (thisptr ? thisptr->_NV_getInventory() : 0);
+	if (inv)
 	{
-		ensureExtraInventorySections(thisptr->_NV_getInventory());
+		// "isLoading" true here so we can resize existing sections as needed.
+		ensureExtraInventorySections(inv, true /*isLoading*/);
 	}
 
 	return result;
@@ -78,23 +99,61 @@ bool Character_NV_setupInventorySections_Hook(Character* thisptr, GameSaveState*
 
 void Character_NV_loadFromSerialise_Hook(Character* thisptr, GameSaveState* state)
 {
-	if (thisptr && thisptr->_NV_getInventory())
-	{
-		ensureExtraInventorySections(thisptr->_NV_getInventory());
-	}
-
 	Character_NV_loadFromSerialise_orig(thisptr, state);
+
+	Inventory* inv = (thisptr ? thisptr->_NV_getInventory() : 0);
+	if (inv)
+	{
+		// After serialise load, ensure our sections exist.
+		// No resizing here to minimize mutation after load; creation-only is usually safest.
+		ensureExtraInventorySections(inv, false /*isLoading*/);
+	}
 }
 
+// -----------------------------
+// Hook: Inventory routing (critical when multiple sections share AttachSlot)
+// -----------------------------
+InventorySection* (*Inventory_getSectionOfType_orig)(Inventory* thisptr, AttachSlot type) = 0;
+
+static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot type, InventorySection* current)
+{
+	if (!inv) return current;
+
+	// Preserve canonical equip routing invariants:
+	// - ATTACH_HAT must route to "head"
+	// - ATTACH_BELT must route to "belt"
+	if (type == ATTACH_HAT)
+	{
+		InventorySection* head = inv->getSection("head");
+		if (head) return head;
+	}
+	else if (type == ATTACH_BELT)
+	{
+		InventorySection* belt = inv->getSection("belt");
+		if (belt) return belt;
+	}
+
+	return current;
+}
+
+InventorySection* Inventory_getSectionOfType_Hook(Inventory* thisptr, AttachSlot type)
+{
+	InventorySection* sec = Inventory_getSectionOfType_orig(thisptr, type);
+	return PreferVanillaEquipSection(thisptr, type, sec);
+}
+
+// -----------------------------
 // Startup
+// -----------------------------
 __declspec(dllexport) void startPlugin()
 {
+	// Character lifecycle hooks
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
 		KenshiLib::GetRealAddress(&Character::_NV_setupInventorySections),
 		&Character_NV_setupInventorySections_Hook,
 		&Character_NV_setupInventorySections_orig))
 	{
-		ErrorLog("[Extra Inventory Slots] Failure hooking Character::_NV_setupInventorySections.");
+		ErrorLog("[ExtraSlots] Failure hooking Character::_NV_setupInventorySections.");
 	}
 
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
@@ -102,6 +161,15 @@ __declspec(dllexport) void startPlugin()
 		&Character_NV_loadFromSerialise_Hook,
 		&Character_NV_loadFromSerialise_orig))
 	{
-		ErrorLog("[Extra Inventory Slots] Failure hooking Character::_NV_loadFromSerialise.");
+		ErrorLog("[ExtraSlots] Failure hooking Character::_NV_loadFromSerialise.");
+	}
+
+	// Inventory routing hook (prevents duplicated AttachSlot sections from hijacking equip routing)
+	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
+		KenshiLib::GetRealAddress(&Inventory::getSectionOfType),
+		&Inventory_getSectionOfType_Hook,
+		&Inventory_getSectionOfType_orig))
+	{
+		ErrorLog("[ExtraSlots] Failure hooking Inventory::getSectionOfType.");
 	}
 }

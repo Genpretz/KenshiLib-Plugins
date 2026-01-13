@@ -14,7 +14,7 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 ### Extra Inventory Sections
   - Adds at least 3 new inventory sections for characters. These being Eyes, Hands, and Neck inventory sections, corresponding to ATTACH_EYES, ATTACH_GLOVES, ATTACH_NECK.
   - Along with the ATTACH_EYES sections are two for compatibilty with other Kenshi mods and are compatible with eyewear that uses the ATTACH_BELT AND ATTACH_HAT slots.
-  - Unfourtunately, There are some issues currently. Items in the new inventory sections weren't saving properly. Currently, only the Hands, Neck, and Eyes(Belt) slots seem to be functioning.
+  - Currently all new inventory sections seem to be functioning correctly.
 ### Faction Healing
   - Made by Matrix Agent, Edited by Genpretz
   - It's supposed to force NPC's to heal characters depending on faction, but it needs some work.

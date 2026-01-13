@@ -49,8 +49,7 @@ static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 		}
 		else if (isLoading)
 		{
-			// Resize on load-time path to keep save compatibility and keep dimensions consistent.
-			// InventorySection::resize is protected; use Inventory::resizeSection (public).
+			// Resize on load and keep dimensions consistent.
 			inv->resizeSection(section, s.width, s.height, false /*clearContent*/);
 		}
 	}
@@ -60,9 +59,8 @@ static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot ty
 {
 	if (!inv) return current;
 
-	// Preserve canonical equip routing invariants:
-	// - ATTACH_HAT must route to "head"
-	// - ATTACH_BELT must route to "belt"
+	// - ATTACH_HAT must route to mygui widget "head"
+	// - ATTACH_BELT must route to mygui widget "belt"
 	if (type == ATTACH_HAT)
 	{
 		InventorySection* head = inv->getSection("head");
@@ -78,7 +76,7 @@ static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot ty
 }
 
 // -----------------------------
-// Hooks:
+// Hooks
 // -----------------------------
 bool (*Character_NV_setupInventorySections_orig)(Character* thisptr, GameSaveState* state) = 0;
 void (*Character_NV_loadFromSerialise_orig)(Character* thisptr, GameSaveState* state) = 0;

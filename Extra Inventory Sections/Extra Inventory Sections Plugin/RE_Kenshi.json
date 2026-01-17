@@ -1,6 +1,3 @@
 {
-	"Plugins" : [ "Extra Inventory Sections.dll" ],
-	"FileRebinds" : {
-		".\/data\/gui\/layout\/Kenshi_InventoryCharacterWindow.layout" : "$(modroot \"Extra Inventory Sections Plugin\")/Custom-Kenshi_InventoryCharacterWindow.layout"
-	}
+	"Plugins" : [ "Extra Inventory Sections.dll" ]
 }

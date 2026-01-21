@@ -28,11 +28,9 @@ More plugins will be added over time.
   - Please check out this repo for more information and links: https://github.com/BFrizzleFoShizzle/KenshiLib_Examples_deps
 
 ## Credits and Acknowledgements
-
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.
 
-- [BFrizzlrFoShizzle](https://github.com/BFrizzleFoShizzle) – Primary author and maintainer of KenshiLib and RE_Kenshi  
+- [BFrizzleFoShizzle](https://github.com/BFrizzleFoShizzle) – Primary author and maintainer of KenshiLib and RE_Kenshi  
 
 ## Disclaimer
-
 This project is not affiliated with or endorsed by Lo-Fi Games. Kenshi is the property of its respective owners.

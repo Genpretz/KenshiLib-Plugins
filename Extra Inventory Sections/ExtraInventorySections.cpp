@@ -2,7 +2,6 @@
 #include <core/Functions.h>
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
-#include <cstdio>
 
 // -----------------------------
 // Section creation / resize logic

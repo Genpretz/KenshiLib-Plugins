@@ -2,35 +2,19 @@
 #include <core/Functions.h>
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
+#include <cstdio>
 
 // -----------------------------
 // Section creation / resize logic
 // -----------------------------
 
-static bool isRaceHeadSectionEnabled(Inventory* inv)
-{
-	InventorySection* head = inv->getSection("head");
-	if (head->enabled == false) {
-		return false;
-	}
-	else {
-		return true;
-	}
-}
-
-static void setRaceEyesSectionEnabled(Inventory* inv, bool enabled)
-{
-	InventorySection* eyes_eyes = inv->getSection("eyes_eyes");
-	InventorySection* eyes_belts = inv->getSection("eyes_belts");
-	InventorySection* eyes_hats = inv->getSection("eyes_hats");
-	eyes_eyes->enabled = enabled;
-	eyes_belts->enabled = enabled;
-	eyes_hats->enabled = enabled;
-}
-
 static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 {
-	if (!inv) return;
+	if (!inv)
+	{
+		ErrorLog("[Extra Inventory Sections] ensureExtraInventorySections: inventory pointer missing");
+		return;
+	}
 
 	struct SectionInfo {
 		const char* name;
@@ -57,16 +41,15 @@ static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 		InventorySection* section = inv->getSection(s.name);
 		if (!section)
 		{
-			// Create section if missing.
-			inv->_NV_initialiseNewSection(
+			InventorySection* newSection = inv->_NV_initialiseNewSection(
 				s.name,
-				s.width,
-				s.height,
-				s.slot,
+				s.width, // Section width
+				s.height, // Section height
+				s.slot, // Attach slot type
 				s.equipCallbacks,
 				false, // isContainerSlot
 				true,  // enabled
-				s.limit
+				s.limit // # of items able to be equipped
 			);
 		}
 		else if (isLoading)
@@ -77,6 +60,7 @@ static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 	}
 }
 
+// Sometimes items equipped in the vanilla equip sections attempt to route to our new sections causing crashes so we make sure to prefer the vanilla sections here.
 static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot type, InventorySection* current)
 {
 	if (!inv) return current;
@@ -97,100 +81,22 @@ static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot ty
 	return current;
 }
 
-bool checkSectionEmpty(Inventory* inv, const char* sectionName)
-{
-	if (!inv) return true;
-	InventorySection* section = inv->getSection(sectionName);
-	if (!section) return true;
-	return section->isEmpty();
-}
-
 // -----------------------------
 // Hooks
 // -----------------------------
 bool (*Character_NV_setupInventorySections_orig)(Character* thisptr, GameSaveState* state) = 0;
 void (*Character_NV_loadFromSerialise_orig)(Character* thisptr, GameSaveState* state) = 0;
 InventorySection* (*Inventory_getSectionOfType_orig)(Inventory* thisptr, AttachSlot type) = 0;
-void (*Character_NV_equipItem_orig)(Character* thisptr, const std::string& sectionName, Item* item) = 0;
-void (*Character_NV_unequipItem_orig)(Character* thisptr, const std::string& sectionName, Item* item) = 0;
-
-void Character_NV_unequipItem_Hook(Character* thisptr, const std::string& sectionName, Item* item)
-{
-	if (sectionName == "eyes_eyes" || sectionName == "eyes_belts" || sectionName == "eyes_hats")
-	{
-		Inventory* inv = (thisptr ? thisptr->_NV_getInventory() : 0);
-		InventorySection* section_eyes = inv->Inventory::getSection("eyes_eyes");
-		InventorySection* section_belts = inv->Inventory::getSection("eyes_belts");
-		InventorySection* section_hats = inv->Inventory::getSection("eyes_hats");
-
-		if (sectionName == "eyes_eyes") {
-			if (checkSectionEmpty(inv, "eyes_belts") && checkSectionEmpty(inv, "eyes_hats")) {
-				Character_NV_unequipItem_orig(thisptr, sectionName, item);
-				section_belts->enabled = true;
-				section_hats->enabled = true;
-			}
-		}
-		else if (sectionName == "eyes_belts") {
-			if (checkSectionEmpty(inv, "eyes_eyes") && checkSectionEmpty(inv, "eyes_hats")) {
-				Character_NV_unequipItem_orig(thisptr, sectionName, item);
-				section_eyes->enabled = true;
-				section_hats->enabled = true;
-			}
-		}
-		else if (sectionName == "eyes_hats") {
-			if (checkSectionEmpty(inv, "eyes_belts") && checkSectionEmpty(inv, "eyes_eyes")) {
-				Character_NV_unequipItem_orig(thisptr, sectionName, item);
-				section_belts->enabled = true;
-				section_eyes->enabled = true;
-			}
-		}
-	}
-	Character_NV_unequipItem_orig(thisptr, sectionName, item);
-}
-
-void Character_NV_equipItem_Hook(Character* thisptr, const std::string& sectionName, Item* item)
-{
-	if (sectionName == "eyes_eyes" || sectionName == "eyes_belts" || sectionName == "eyes_hats")
-	{
-		Inventory* inv = (thisptr ? thisptr->_NV_getInventory() : 0);
-		InventorySection* section_eyes = inv->Inventory::getSection("eyes_eyes");
-		InventorySection* section_belts = inv->Inventory::getSection("eyes_belts");
-		InventorySection* section_hats = inv->Inventory::getSection("eyes_hats");
-
-		if (sectionName == "eyes_eyes") {
-			if (checkSectionEmpty(inv, "eyes_belts") && checkSectionEmpty(inv, "eyes_hats")) {
-				Character_NV_equipItem_orig(thisptr, sectionName, item);
-				section_belts->enabled = false;
-				section_hats->enabled = false;
-			}
-		}
-		else if (sectionName == "eyes_belts") {
-			if (checkSectionEmpty(inv, "eyes_eyes") && checkSectionEmpty(inv, "eyes_hats")) {
-				Character_NV_equipItem_orig(thisptr, sectionName, item);
-				section_eyes->enabled = false;
-				section_hats->enabled = false;
-			}
-		}
-		else if (sectionName == "eyes_hats") {
-			if (checkSectionEmpty(inv, "eyes_belts") && checkSectionEmpty(inv, "eyes_eyes")) {
-				Character_NV_equipItem_orig(thisptr, sectionName, item);
-				section_belts->enabled = false;
-				section_eyes->enabled = false;
-			}
-		}
-	}
-	Character_NV_equipItem_orig(thisptr, sectionName, item);
-}
 
 bool Character_NV_setupInventorySections_Hook(Character* thisptr, GameSaveState* state)
 {
-	// Call original first to restore vanilla inventory sections.
+	// Call original function to setup vanilla inventory sections first.
 	bool result = Character_NV_setupInventorySections_orig(thisptr, state);
 
 	Inventory* inv = (thisptr ? thisptr->_NV_getInventory() : 0);
 	if (inv)
 	{
-		// "isLoading" true here so we can resize existing sections as needed.
+		// "isLoading" istrue here so we can resize existing sections as needed.
 		ensureExtraInventorySections(inv, true /*isLoading*/);
 	}
 
@@ -216,14 +122,15 @@ InventorySection* Inventory_getSectionOfType_Hook(Inventory* thisptr, AttachSlot
 }
 
 // -----------------------------
-// Startup
+// DLL Entry Point
 // -----------------------------
 __declspec(dllexport) void startPlugin()
 {
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
 		KenshiLib::GetRealAddress(&Character::_NV_setupInventorySections),
 		&Character_NV_setupInventorySections_Hook,
-		&Character_NV_setupInventorySections_orig))
+		&Character_NV_setupInventorySections_orig
+	))
 	{
 		ErrorLog("[Extra Inventory Sections] Failure hooking Character::_NV_setupInventorySections.");
 	}
@@ -231,7 +138,8 @@ __declspec(dllexport) void startPlugin()
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
 		KenshiLib::GetRealAddress(&Character::_NV_loadFromSerialise),
 		&Character_NV_loadFromSerialise_Hook,
-		&Character_NV_loadFromSerialise_orig))
+		&Character_NV_loadFromSerialise_orig
+	))
 	{
 		ErrorLog("[Extra Inventory Sections] Failure hooking Character::_NV_loadFromSerialise.");
 	}
@@ -239,24 +147,9 @@ __declspec(dllexport) void startPlugin()
 	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
 		KenshiLib::GetRealAddress(&Inventory::getSectionOfType),
 		&Inventory_getSectionOfType_Hook,
-		&Inventory_getSectionOfType_orig))
+		&Inventory_getSectionOfType_orig
+	))
 	{
 		ErrorLog("[Extra Inventory Sections] Failure hooking Inventory::getSectionOfType.");
-	}
-
-	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-		KenshiLib::GetRealAddress(&Character::_NV_equipItem),
-		&Character_NV_equipItem_Hook,
-		&Character_NV_equipItem_orig))
-	{
-		ErrorLog("[Extra Inventory Sections] Failure hooking Character::_NV_equipItem.");
-	}
-
-	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-		KenshiLib::GetRealAddress(&Character::_NV_unequipItem),
-		&Character_NV_unequipItem_Hook,
-		&Character_NV_unequipItem_orig))
-	{
-		ErrorLog("[Extra Inventory Sections] Failure hooking Character::_NV_unequipItem.");
 	}
 }

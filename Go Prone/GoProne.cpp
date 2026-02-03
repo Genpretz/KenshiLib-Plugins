@@ -82,11 +82,11 @@ static void InputHandler_keyDownEvent_hook(InputHandler* thisptr, OIS::KeyCode k
 
 __declspec(dllexport) void __cdecl startPlugin()
 {
-    static bool started = false;
-    if (started) return;
-    started = true;
-
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&InputHandler::keyDownEvent), InputHandler_keyDownEvent_hook, &InputHandler_keyDownEvent_orig))
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
+        KenshiLib::GetRealAddress(&InputHandler::keyDownEvent), 
+        InputHandler_keyDownEvent_hook, 
+        &InputHandler_keyDownEvent_orig
+    ))
     {
         ErrorLog("[Go Prone Plugin] - Could not hook InputHandler::keyDownEvent");
     }

@@ -80,7 +80,7 @@
     <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)Libraries;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Extra Inventory Sections</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)Include;$(IncludePath)</IncludePath>
@@ -136,7 +136,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>KenshiLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>KenshiLib.lib;MyGUIEngine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +154,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>KenshiLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>KenshiLib.lib;MyGUIEngine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

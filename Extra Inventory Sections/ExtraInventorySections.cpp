@@ -2,40 +2,10 @@
 #include <core/Functions.h>
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
-#include <mygui/MyGUI.h>
-#include <mygui/MyGUI_Gui.h>
 
 // -----------------------------
 // Section creation / resize logic
 // -----------------------------
-
-static bool HasRequiredInventoryWidgets()
-{
-	MyGUI::Gui* gui = MyGUI::Gui::getInstancePtr();
-	if (!gui)
-		return false;
-
-	static const char* requiredWidgets[] = {
-		"eyes_eyes",
-		"eyes_belts",
-		"eyes_hats",
-		"gloves",
-		"neck"
-	};
-
-	const int count = sizeof(requiredWidgets) / sizeof(requiredWidgets[0]);
-	for (int i = 0; i < count; ++i)
-	{
-		if (!gui->findWidget<MyGUI::Widget>(requiredWidgets[i], false))
-			return false;
-	}
-
-	return true;
-}
-
-
-static bool g_uiConflictDetected = false;
-static bool g_uiConflictLogged = false;
 
 static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 {
@@ -43,19 +13,6 @@ static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 	{
 		ErrorLog("[Extra Inventory Sections] ensureExtraInventorySections: inventory pointer missing");
 		return;
-	}
-
-	if (!HasRequiredInventoryWidgets())
-	{
-		g_uiConflictDetected = true;
-
-		if (!g_uiConflictLogged)
-		{
-			g_uiConflictLogged = true;
-			ErrorLog("[Extra Inventory Sections] UI mod conflict detected: required widgets missing from Kenshi_InventoryCharacterWindow.layout"
-			);
-		}
-		return; // Inventory Sections not created
 	}
 
 	struct SectionInfo {
@@ -96,8 +53,7 @@ static void ensureExtraInventorySections(Inventory* inv, bool isLoading)
 		}
 		else if (isLoading)
 		{
-			// Resize on load and keep dimensions consistent. We do this because for some reason the game sometimes switches the width/height of sections during save/load?
-			// It's more likely that I just don't know what I'm doing, but just in case...
+			// Resize on load and keep dimensions consistent.
 			inv->resizeSection(section, s.width, s.height, false /*clearContent*/);
 		}
 	}

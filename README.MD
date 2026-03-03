@@ -26,7 +26,6 @@ More plugins will be added over time.
   - Visual Studio 2010 Platform Toolset
   - Boost v1.60.0
 
-  - Please check out the following links for more information: 
   - [KenshiLib_Examples_deps](https://github.com/BFrizzleFoShizzle/KenshiLib_Examples_deps)
       - This repository includes the Boost and KenshiLib as well as a script that sets environment variables associated with the two. I'd highly suggest using it when attempting to compile my repo yourself.
 

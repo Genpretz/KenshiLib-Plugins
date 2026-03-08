@@ -47,14 +47,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)Libraries;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)\Include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)Libraries;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)\Include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
   </PropertyGroup>

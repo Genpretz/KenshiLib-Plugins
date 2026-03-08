@@ -1,0 +1,65 @@
+{
+  "inventoryWidgets": {
+    "widgets": [
+      {
+        "name": "lbEyes",
+        "x": 0.555556,
+        "y": 0.307557,
+        "width": 0.150206,
+        "height": 0.026362,
+        "label": "EYES"
+      },
+      {
+        "name": "eyes_eyes",
+        "x": 0.555556,
+        "y": 0.339192,
+        "width": 0.150206,
+        "height": 0.024605
+      },
+      {
+        "name": "eyes_belts",
+        "x": 0.555556,
+        "y": 0.381371,
+        "width": 0.150206,
+        "height": 0.021090
+      },
+      {
+        "name": "eyes_hats",
+        "x": 0.555556,
+        "y": 0.425308,
+        "width": 0.150206,
+        "height": 0.021090
+      },
+      {
+        "name": "lbGloves",
+        "x": 0.720165,
+        "y": 0.307557,
+        "width": 0.106996,
+        "height": 0.026362,
+        "label": "HANDS"
+      },
+      {
+        "name": "gloves",
+        "x": 0.730453,
+        "y": 0.339192,
+        "width": 0.092593,
+        "height": 0.072056
+      },
+      {
+        "name": "lbNeck",
+        "x": 0.851852,
+        "y": 0.307557,
+        "width": 0.092593,
+        "height": 0.026362,
+        "label": "NECK"
+      },
+      {
+        "name": "neck",
+        "x": 0.851852,
+        "y": 0.339192,
+        "width": 0.092593,
+        "height": 0.072056
+      }
+    ]
+  }
+}

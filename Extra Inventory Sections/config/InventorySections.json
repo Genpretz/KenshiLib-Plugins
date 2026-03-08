@@ -1,0 +1,56 @@
+{
+  "inventorySections": {
+    "sections": [
+      {
+        "name": "eyes_eyes",
+        "width": 3,
+        "height": 1,
+        "slot": "ATTACH_EYES",
+        "equipCallbacks": true,
+        "isContainerSlot": false,
+        "enabled": true,
+        "limit": 1
+      },
+      {
+        "name": "eyes_belts",
+        "width": 3,
+        "height": 1,
+        "slot": "ATTACH_BELT",
+        "equipCallbacks": true,
+        "isContainerSlot": false,
+        "enabled": true,
+        "limit": 1
+      },
+      {
+        "name": "eyes_hats",
+        "width": 3,
+        "height": 1,
+        "slot": "ATTACH_HAT",
+        "equipCallbacks": true,
+        "isContainerSlot": false,
+        "enabled": true,
+        "limit": 1
+      },
+      {
+        "name": "neck",
+        "width": 2,
+        "height": 2,
+        "slot": "ATTACH_NECK",
+        "equipCallbacks": true,
+        "isContainerSlot": false,
+        "enabled": true,
+        "limit": 1
+      },
+      {
+        "name": "gloves",
+        "width": 2,
+        "height": 2,
+        "slot": "ATTACH_GLOVES",
+        "equipCallbacks": true,
+        "isContainerSlot": false,
+        "enabled": true,
+        "limit": 4
+      }
+    ]
+  }
+}

@@ -19,14 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ExtraInventorySections.cpp" />
+    <ClCompile Include="src\ExtraInventorySections.cpp" />
+    <ClCompile Include="src\InventorySectionsConfig.cpp" />
+    <ClCompile Include="src\CreateInventoryWidgets.cpp" />
+    <ClCompile Include="src\InventoryWidgetsConfig.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\InventorySectionsConfig.h" />
+    <ClInclude Include="include\CreateInventoryWidgets.h" />
+    <ClInclude Include="include\InventoryWidgetsConfig.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config\Extra Inventory Sections Plugin.mod" />
+    <None Include="config\InventorySections.json" />
+    <None Include="config\InventorySectionWidgets.json" />
+    <None Include="config\RE_Kenshi.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{22F0CC14-0658-4180-9A6D-D2B6A5314984}</ProjectGuid>
     <RootNamespace>EyewearInventorySlot</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
     <ProjectName>Extra Inventory Sections</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -76,15 +90,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)Libraries;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)\Include\;C:\Users\trist\Documents\GitHub\rapidjson-1.1.0\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
     <TargetName>Extra Inventory Sections</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)Libraries;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)\Include;$(ProjectDir)include;C:\Users\trist\Documents\GitHub\rapidjson-1.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
     <TargetName>Extra Inventory Sections</TargetName>
@@ -131,6 +145,8 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +154,13 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>KenshiLib.lib;MyGUIEngine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(OutDir)Extra Inventory Sections.dll" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\InventorySections.json" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\InventorySectionWidgets.json" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\RE_Kenshi.json" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\Extra Inventory Sections Plugin.mod" "$(ProjectDir)Extra Inventory Sections Plugin"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -149,6 +172,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\trist\Documents\GitHub\rapidjson-1.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,6 +181,9 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>KenshiLib.lib;MyGUIEngine_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(OutDir)Extra Inventory Sections.dll" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\InventorySections.json" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\InventorySectionWidgets.json" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\RE_Kenshi.json" "$(ProjectDir)Extra Inventory Sections Plugin" &amp;&amp; copy /Y "$(ProjectDir)config\Extra Inventory Sections Plugin.mod" "$(ProjectDir)Extra Inventory Sections Plugin"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

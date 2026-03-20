@@ -2,6 +2,7 @@
 #include <core/Functions.h>
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
+#include <kenshi/Titlescreen.h>
 
 // -----------------------------
 // Section creation / resize logic
@@ -86,6 +87,7 @@ static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot ty
 bool (*Character_NV_setupInventorySections_orig)(Character* thisptr, GameSaveState* state) = 0;
 void (*Character_NV_loadFromSerialise_orig)(Character* thisptr, GameSaveState* state) = 0;
 InventorySection* (*Inventory_getSectionOfType_orig)(Inventory* thisptr, AttachSlot type) = 0;
+void (*BaseLayout_initialise_orig)(wraps::BaseLayout* thisptr, const std::string& _layout, MyGUI::Widget* _parent, bool _throw, bool _createFakeWidgets) = 0;
 
 bool Character_NV_setupInventorySections_Hook(Character* thisptr, GameSaveState* state)
 {
@@ -120,6 +122,17 @@ InventorySection* Inventory_getSectionOfType_Hook(Inventory* thisptr, AttachSlot
 	return PreferVanillaEquipSection(thisptr, type, sec);
 }
 
+void BaseLayout_initialise_Hook(wraps::BaseLayout* thisptr, const std::string& _layout, MyGUI::Widget* _parent, bool _throw, bool _createFakeWidgets)
+{
+	if (_layout == "Kenshi_InventoryCharacterWindow.layout")
+	{
+		BaseLayout_initialise_orig(thisptr, "Custom_InventoryCharacterWindow.layout", _parent, _throw, _createFakeWidgets);
+		DebugLog("[Extra Inventory Sections] Custom Inventory layout initialised.");
+		return;
+	}
+	BaseLayout_initialise_orig(thisptr, _layout, _parent, _throw, _createFakeWidgets);
+}
+
 // -----------------------------
 // DLL Entry Point
 // -----------------------------
@@ -150,5 +163,14 @@ __declspec(dllexport) void startPlugin()
 	))
 	{
 		ErrorLog("[Extra Inventory Sections] Failure hooking Inventory::getSectionOfType.");
+	}
+
+	if (KenshiLib::SUCCESS != KenshiLib::AddHook(
+		KenshiLib::GetRealAddress(&wraps::BaseLayout::initialise),
+		&BaseLayout_initialise_Hook,
+		&BaseLayout_initialise_orig
+	))
+	{
+		ErrorLog("[Extra Inventory Sections] Failure hooking wraps::BaseLayout::initialise.");
 	}
 }

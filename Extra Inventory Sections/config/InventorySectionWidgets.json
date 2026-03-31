@@ -4,61 +4,53 @@
       {
         "name": "lbEyes",
         "x": 0.555556,
-        "y": 0.277557,
         "width": 0.150206,
-        "height": 0.026362,
+        "height": 0.0281195,
         "label": "EYES"
       },
       {
         "name": "eyes_eyes",
         "x": 0.555556,
-        "y": 0.309192,
         "width": 0.150206,
-        "height": 0.024605
+        "height": 0.026362
       },
       {
         "name": "eyes_belts",
         "x": 0.555556,
-        "y": 0.351371,
         "width": 0.150206,
-        "height": 0.021090
+        "height": 0.0228471
       },
       {
         "name": "eyes_hats",
         "x": 0.555556,
-        "y": 0.395308,
         "width": 0.150206,
-        "height": 0.021090
+        "height": 0.0228471
       },
       {
         "name": "lbGloves",
         "x": 0.720165,
-        "y": 0.277557,
         "width": 0.106996,
-        "height": 0.026362,
+        "height": 0.0281195,
         "label": "HANDS"
       },
       {
         "name": "gloves",
         "x": 0.730453,
-        "y": 0.309192,
-        "width": 0.092593,
-        "height": 0.072056
+        "width": 0.0925926,
+        "height": 0.0738137
       },
       {
         "name": "lbNeck",
         "x": 0.851852,
-        "y": 0.277557,
-        "width": 0.092593,
-        "height": 0.026362,
+        "width": 0.0925926,
+        "height": 0.0281195,
         "label": "NECK"
       },
       {
         "name": "neck",
         "x": 0.851852,
-        "y": 0.309192,
-        "width": 0.092593,
-        "height": 0.072056
+        "width": 0.0925926,
+        "height": 0.0738137
       }
     ]
   }

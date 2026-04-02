@@ -11,7 +11,7 @@
 
 #include <kenshi/Character.h>
 #include <kenshi/Inventory.h>
-#include <kenshi/TitleScreen.h>
+#include <kenshi/gui/TitleScreen.h>
 
 #include <vector>
 
@@ -186,7 +186,15 @@ static void BaseLayout_initialise_Hook(
 		loaded = true;
 	}
 
-	CreateInventoryWidgets(thisptr->mMainWidget, thisptr->mPrefix, cachedWidgets);
+	MyGUI::Widget* root = thisptr->mMainWidget;
+	if (!root)
+	{
+		return;
+	}
+
+	std::string prefix = MyGUI::utility::toString(thisptr, "_");
+	CreateInventoryWidgets(root, prefix, cachedWidgets);
+	return;
 }
 
 // -----------------------------

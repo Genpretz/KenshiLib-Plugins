@@ -45,13 +45,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(KENSHILIB_DIR)\Binaries\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(BOOST_INCLUDE_PATH);$(KENSHILIB_DIR)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries;$(KENSHILIB_DIR)\Binaries\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -59,9 +59,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

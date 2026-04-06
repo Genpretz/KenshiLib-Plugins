@@ -21,20 +21,20 @@ static void ToggleCharacterProneState()
     Character* c = ou->player->selectedCharacter.getCharacter();
     if (!c)
     {
-        ErrorLog("[Go Prone Plugin] No selected character found.\n");
+        ErrorLog("No selected character found.\n");
         return;
     }
 
     switch (c->_NV_getProneState())
     {
     case PS_NORMAL:
-        DebugLog("[Go Prone Plugin] PS_NORMAL -> PS_STAYING_LOW\n");
+        DebugLog("PS_NORMAL -> PS_STAYING_LOW\n");
         c->setStealthMode(true);
         c->_NV_setProneState(PS_STAYING_LOW);
         break;
 
     case PS_STAYING_LOW:
-        DebugLog("[Go Prone Plugin] PS_STAYING_LOW -> PS_NORMAL\n");
+        DebugLog("PS_STAYING_LOW -> PS_NORMAL\n");
         c->_NV_setProneState(PS_NORMAL);
         c->setStealthMode(false);
         break;
@@ -42,7 +42,7 @@ static void ToggleCharacterProneState()
     case PS_PLAYING_DEAD:
     case PS_CRIPPLED:
     case PS_KO:
-        DebugLog("[Go Prone Plugin] Leaving proneState as is.\n");
+        DebugLog("Leaving proneState as is.\n");
         break;
 
     default:
@@ -88,6 +88,6 @@ __declspec(dllexport) void __cdecl startPlugin()
         &InputHandler_keyDownEvent_orig
     ))
     {
-        ErrorLog("[Go Prone Plugin] - Could not hook InputHandler::keyDownEvent");
+        ErrorLog("Could not hook InputHandler::keyDownEvent");
     }
 }

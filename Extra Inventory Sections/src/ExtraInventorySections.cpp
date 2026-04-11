@@ -11,6 +11,7 @@
 
 static void (*chooseMyClothing_orig)(lektor<GameData*>& gear, GameData* dataList, const std::string& listName, RaceData* race, bool noShoes) = 0;
 static GameData* (*_chooseClothingItemFromList_orig)(GameData* dataList, const std::string& listName, AttachSlot slot, RaceData* race) = 0;
+InventorySection* (*Inventory_getSectionOfType_orig)(Inventory* thisptr, AttachSlot type) = 0;
 void (*Character_NV_init_orig)(Character* thisptr) = 0;
 void (*BaseLayout_initialise_orig)(wraps::BaseLayout*, const std::string&, MyGUI::Widget*, bool, bool) = 0;
 
@@ -76,6 +77,35 @@ void ensureExtraInventorySections(Inventory* inv)
             }
         }
     }
+}
+
+// We hook the Inventory::getSectionOfType function because the game uses that function to determine which inventory section to use for equipping items.
+// Basically the game will try and equip items that won't fit in our new sections and this causes an issue with Array2d out-of-range errors and crashes.
+static InventorySection* PreferVanillaEquipSection(Inventory* inv, AttachSlot type, InventorySection* current)
+{
+    if (!inv) return current;
+
+    // - ATTACH_HAT must route to mygui widget "head"
+    // - ATTACH_BELT must route to mygui widget "belt"
+    if (type == ATTACH_HAT)
+    {
+        InventorySection* head = inv->getSection("head");
+        if (head) return head;
+    }
+    else if (type == ATTACH_BELT)
+    {
+        InventorySection* belt = inv->getSection("belt");
+        if (belt) return belt;
+    }
+
+    return current;
+}
+
+
+InventorySection* Inventory_getSectionOfType_Hook(Inventory* thisptr, AttachSlot type)
+{
+    InventorySection* sec = Inventory_getSectionOfType_orig(thisptr, type);
+    return PreferVanillaEquipSection(thisptr, type, sec);
 }
 
 // We hook the Character::_NV_init function to ensure our extra inventory sections are created early enough to be available for all characters.
@@ -177,5 +207,14 @@ __declspec(dllexport) void startPlugin()
     ))
     {
         ErrorLog("Failure hooking wraps::BaseLayout::initialise.");
+    }
+
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
+        KenshiLib::GetRealAddress(&Inventory::getSectionOfType),
+        &Inventory_getSectionOfType_Hook,
+        &Inventory_getSectionOfType_orig
+    ))
+    {
+        ErrorLog("[Extra Inventory Sections] Failure hooking Inventory::getSectionOfType.");
     }
 }

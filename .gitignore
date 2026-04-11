@@ -76,3 +76,5 @@ Desktop.ini
 /Extra Inventory Sections/Eyes Inventory Slot.vcxproj.filters
 /Extra Inventory Sections/old/v0.3.0
 /Extra Inventory Sections/tests
+/Extra Inventory Sections/include/old
+/Extra Inventory Sections/src/old

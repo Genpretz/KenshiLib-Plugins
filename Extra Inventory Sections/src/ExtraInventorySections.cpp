@@ -64,7 +64,7 @@ void ensureExtraInventorySections(Inventory* inv)
                 continue;
             }
 
-            // Defensive check: if the created section does not match expected dims, resize it.
+            // If the created section does not match expected dims, resize it.
             // This avoids Array2d out-of-range access if constructor used swapped dims or other mismatch.
             if (newSection->width != s.width || newSection->height != s.height)
             {
@@ -118,6 +118,7 @@ void Character_NV_init_hook(Character* thisptr)
 // We hook the chooseMyClothing function to add items for our extra inventory sections when the game spawns clothing for a character.
 // The base game will only look for clothing items belonging to the ATTACH_HAT, ATTACH_BELT, ATTACH_BODY, ATTACH_LEGS, and ATTACH_SHIRT slots.
 // By hooking this function, we can also look for items belonging to the ATTACH_EYES, ATTACH_GLOVES, and ATTACH_NECK slots and add those items from the character's clothing list as well.
+// 
 static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, const std::string& listName, RaceData* race, bool noShoes)
 {
     chooseMyClothing_orig(gear, dataList, listName, race, noShoes);
@@ -126,12 +127,18 @@ static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, c
     {
         return;
     }
-
+   
     static const AttachSlot extraSlots[] = {
-        ATTACH_EYES,
-        ATTACH_GLOVES,
-        ATTACH_NECK
+        ATTACH_EYES, //eyes_eyes
+        ATTACH_GLOVES, //gloves
+        ATTACH_NECK, //neck
+		//ATTACH_HAT, //eyes_hats
+		//ATTACH_BELT //eyes_belts
     };
+
+ // This game already chooses clothing for ATTACH_BELT and ATTACH_HAT slots from the "clothing" list, so we don't need to do anything special for those sections unless we would like the game to be able to populate both the original head/belt sections and our new ones at the same time, which would require some extra work.
+ // If we want to populate both the original head/belt sections and our new ones, we would need to add some extra logic to determine which item goes in which section. If for example, you have a character template that has a chance of spawning with a helmets and a pair of glasses (both using ATTACH_HAT), 
+ // when we "choose" our second ATTACH_HAT item, there's no gurantee it will fit in our new section in which case it will default to the "main" section. So instead of a character spawning with both a helmet and glasses, you might end up with a character that spawns with two helmets and an empty glasses section.
 
     const int count = (int)(sizeof(extraSlots) / sizeof(extraSlots[0]));
     for (int i = 0; i < count; ++i)
@@ -153,6 +160,7 @@ static GameData* _chooseClothingItemFromList_hook(GameData* dataList, const std:
 
 // There are a few different ways we can create the MyGUI widgets needed for our extra inventory sections, but this is the one that I found to be the most reliable.
 // Other methods put your layout file at risk of being overwritten by the game or other mods (specifically UI mods) and that always leads to the game crashing.
+// You can tell the user to place the mod in a specific load order position to avoid this, but that isn't ideal, especially with some users having 200+ mods.
 void BaseLayout_initialise_Hook(wraps::BaseLayout* thisptr, const std::string& layout, MyGUI::Widget* parent, bool _throw, bool _createFakeWidgets)
 {
     if (layout == "Kenshi_InventoryCharacterWindow.layout")

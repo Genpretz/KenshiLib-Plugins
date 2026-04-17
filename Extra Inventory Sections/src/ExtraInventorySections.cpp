@@ -118,6 +118,7 @@ void Character_NV_init_hook(Character* thisptr)
 // We hook the chooseMyClothing function to add items for our extra inventory sections when the game spawns clothing for a character.
 // The base game will only look for clothing items belonging to the ATTACH_HAT, ATTACH_BELT, ATTACH_BODY, ATTACH_LEGS, and ATTACH_SHIRT slots.
 // By hooking this function, we can also look for items belonging to the ATTACH_EYES, ATTACH_GLOVES, and ATTACH_NECK slots and add those items from the character's clothing list as well.
+// 
 static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, const std::string& listName, RaceData* race, bool noShoes)
 {
     chooseMyClothing_orig(gear, dataList, listName, race, noShoes);

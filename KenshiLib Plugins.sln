@@ -5,8 +5,6 @@ VisualStudioVersion = 17.14.36804.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Go Prone", "Go Prone\Go Prone.vcxproj", "{B8295E4E-31B7-427E-8699-7F9A58713313}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Faction Healing", "Faction Healing\Faction Healing.vcxproj", "{498BB183-0F28-4AD8-B992-00ECBDD68367}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Extra Inventory Sections", "Extra Inventory Sections\Extra Inventory Sections.vcxproj", "{22F0CC14-0658-4180-9A6D-D2B6A5314984}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{B8295E4E-31B7-427E-8699-7F9A58713313}.Debug|x64.Build.0 = Debug|x64
 		{B8295E4E-31B7-427E-8699-7F9A58713313}.Release|x64.ActiveCfg = Release|x64
 		{B8295E4E-31B7-427E-8699-7F9A58713313}.Release|x64.Build.0 = Release|x64
-		{498BB183-0F28-4AD8-B992-00ECBDD68367}.Debug|x64.ActiveCfg = Debug|x64
-		{498BB183-0F28-4AD8-B992-00ECBDD68367}.Debug|x64.Build.0 = Debug|x64
-		{498BB183-0F28-4AD8-B992-00ECBDD68367}.Release|x64.ActiveCfg = Release|x64
-		{498BB183-0F28-4AD8-B992-00ECBDD68367}.Release|x64.Build.0 = Release|x64
 		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Debug|x64.ActiveCfg = Debug|x64
 		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Debug|x64.Build.0 = Debug|x64
 		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Release|x64.ActiveCfg = Release|x64

@@ -18,14 +18,15 @@ This repository contains a small collection of mods for Kenshi written in C++ an
 
 More plugins will be added over time.
 
-## Compilation Requirements
-  - [KenshiLib v0.1.0 or Later](https://github.com/KenshiReclaimer/KenshiLib)
+## Compilation
+#### Dependencies:
+  - [KenshiLib](https://github.com/KenshiReclaimer/KenshiLib)
   - Visual Studio 2010 Platform Toolset
   - Boost v1.60.0
 
-  
+#### Recommended:
   - [KenshiLib_Examples_deps](https://github.com/BFrizzleFoShizzle/KenshiLib_Examples_deps)
-      - This repository includes the Boost and KenshiLib as well as a script that sets environment variables associated with the two. I'd highly suggest using it when attempting to compile my repo yourself.
+      - This repository includes Boost and KenshiLib as well as a script that sets environment variables associated with the two and used by the project. I'd highly suggest using it when attempting to compile this repo for yourself.
 
 ## Credits and Acknowledgements
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.

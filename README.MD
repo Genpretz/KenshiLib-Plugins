@@ -20,7 +20,8 @@ More plugins will be added over time.
 
 ## Compilation
 #### Dependencies:
-  - [KenshiLib](https://github.com/KenshiReclaimer/KenshiLib)
+  - [KenshiLib v0.1.5](https://github.com/KenshiReclaimer/KenshiLib/releases/tag/v0.1.5)
+    - This repo has problems compiling with newer versions of KenshiLib for various reasons. It isn't impossible, but this repo is easiest to compile when using this version.
   - Visual Studio 2010 Platform Toolset
   - Boost v1.60.0
 

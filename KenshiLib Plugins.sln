@@ -9,16 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Extra Inventory Sections", 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B8295E4E-31B7-427E-8699-7F9A58713313}.Debug|x64.ActiveCfg = Debug|x64
-		{B8295E4E-31B7-427E-8699-7F9A58713313}.Debug|x64.Build.0 = Debug|x64
 		{B8295E4E-31B7-427E-8699-7F9A58713313}.Release|x64.ActiveCfg = Release|x64
 		{B8295E4E-31B7-427E-8699-7F9A58713313}.Release|x64.Build.0 = Release|x64
-		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Debug|x64.ActiveCfg = Debug|x64
-		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Debug|x64.Build.0 = Debug|x64
 		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Release|x64.ActiveCfg = Release|x64
 		{22F0CC14-0658-4180-9A6D-D2B6A5314984}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection

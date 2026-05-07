@@ -42,6 +42,7 @@
     <LibraryPath>$(BOOST_INCLUDE_PATH)\stage\lib;$(KENSHILIB_DIR)\Libraries\mygui;$(KENSHILIB_DIR)\Libraries\kenshilib;$(KENSHILIB_DIR)\Libraries\ogre;$(LibraryPath)</LibraryPath>
     <IntDir>$(ProjectDir)obj\$(Configuration)\</IntDir>
     <TargetName>Extra Inventory Sections</TargetName>
+    <OutDir>$(ProjectDir)Extra Inventory Sections Plugin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

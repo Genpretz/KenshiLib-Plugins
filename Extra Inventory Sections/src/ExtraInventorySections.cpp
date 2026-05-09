@@ -7,13 +7,13 @@
 #include <kenshi/GameData.h>
 #include <kenshi/Inventory.h>
 #include <kenshi/RootObjectFactory.h>
-#include <kenshi/TitleScreen.h>
+//#include <kenshi/gui/TitleScreen.h>
 
 static void (*chooseMyClothing_orig)(lektor<GameData*>& gear, GameData* dataList, const std::string& listName, RaceData* race, bool noShoes) = 0;
 static GameData* (*_chooseClothingItemFromList_orig)(GameData* dataList, const std::string& listName, AttachSlot slot, RaceData* race) = 0;
 InventorySection* (*Inventory_getSectionOfType_orig)(Inventory* thisptr, AttachSlot type) = 0;
 void (*Character_NV_init_orig)(Character* thisptr) = 0;
-void (*BaseLayout_initialise_orig)(wraps::BaseLayout*, const std::string&, MyGUI::Widget*, bool, bool) = 0;
+//void (*BaseLayout_initialise_orig)(wraps::BaseLayout*, const std::string&, MyGUI::Widget*, bool, bool) = 0;
 
 struct SectionInfo {
     const char* name;
@@ -161,20 +161,20 @@ static GameData* _chooseClothingItemFromList_hook(GameData* dataList, const std:
 // There are a few different ways we can create the MyGUI widgets needed for our extra inventory sections, but this is the one that I found to be the most reliable.
 // Other methods put your layout file at risk of being overwritten by the game or other mods (specifically UI mods) and that always leads to the game crashing.
 // You can tell the user to place the mod in a specific load order position to avoid this, but that isn't ideal, especially with some users having 200+ mods.
-void BaseLayout_initialise_Hook(wraps::BaseLayout* thisptr, const std::string& layout, MyGUI::Widget* parent, bool _throw, bool _createFakeWidgets)
-{
-    if (layout == "Kenshi_InventoryCharacterWindow.layout")
-    {
-        BaseLayout_initialise_orig(
-            thisptr,
-            "Custom_InventoryCharacterWindow.layout",
-            parent, _throw, _createFakeWidgets
-        );
-        return;
-    }
-
-    BaseLayout_initialise_orig(thisptr, layout, parent, _throw, _createFakeWidgets);
-}
+//void BaseLayout_initialise_Hook(wraps::BaseLayout* thisptr, const std::string& layout, MyGUI::Widget* parent, bool _throw, bool _createFakeWidgets)
+//{
+//    if (layout == "Kenshi_InventoryCharacterWindow.layout")
+//    {
+//        BaseLayout_initialise_orig(
+//            thisptr,
+//            "Custom_InventoryCharacterWindow.layout",
+//            parent, _throw, _createFakeWidgets
+//        );
+//        return;
+//    }
+//
+//    BaseLayout_initialise_orig(thisptr, layout, parent, _throw, _createFakeWidgets);
+//}
 
 __declspec(dllexport) void startPlugin()
 {
@@ -208,14 +208,13 @@ __declspec(dllexport) void startPlugin()
     }
 
 	// Hook the BaseLayout::initialise function to replace the inventory character window layout with our custom version that has extra inventory sections.
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-        KenshiLib::GetRealAddress(&wraps::BaseLayout::initialise),
+    /*if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&wraps::BaseLayout::initialise),
         &BaseLayout_initialise_Hook,
         &BaseLayout_initialise_orig
     ))
     {
         ErrorLog("Failure hooking wraps::BaseLayout::initialise.");
-    }
+    }*/
 
     if (KenshiLib::SUCCESS != KenshiLib::AddHook(
         KenshiLib::GetRealAddress(&Inventory::getSectionOfType),

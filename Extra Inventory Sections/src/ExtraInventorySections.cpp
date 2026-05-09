@@ -118,7 +118,6 @@ void Character_NV_init_hook(Character* thisptr)
 // We hook the chooseMyClothing function to add items for our extra inventory sections when the game spawns clothing for a character.
 // The base game will only look for clothing items belonging to the ATTACH_HAT, ATTACH_BELT, ATTACH_BODY, ATTACH_LEGS, and ATTACH_SHIRT slots.
 // By hooking this function, we can also look for items belonging to the ATTACH_EYES, ATTACH_GLOVES, and ATTACH_NECK slots and add those items from the character's clothing list as well.
-// 
 static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, const std::string& listName, RaceData* race, bool noShoes)
 {
     chooseMyClothing_orig(gear, dataList, listName, race, noShoes);
@@ -136,10 +135,10 @@ static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, c
 		//ATTACH_BELT //eyes_belts
     };
 
- // This game already chooses clothing for ATTACH_BELT and ATTACH_HAT slots from the "clothing" list, so we don't need to do anything special for those sections unless we would like the game to be able to populate both the original head/belt sections and our new ones at the same time, which would require some extra work.
- // If we want to populate both the original head/belt sections and our new ones, we would need to add some extra logic to determine which item goes in which section. If for example, you have a character template that has a chance of spawning with a helmets and a pair of glasses (both using ATTACH_HAT), 
- // when we "choose" our second ATTACH_HAT item, there's no gurantee it will fit in our new section in which case it will default to the "main" section. So instead of a character spawning with both a helmet and glasses, you might end up with a character that spawns with two helmets and an empty glasses section.
-
+// This game already chooses clothing for ATTACH_BELT and ATTACH_HAT slots from the "clothing" list, so we don't need to do anything special for those sections unless we would like the game to be able to populate both the original head/belt sections and our new ones at the same time, which would require some extra work.
+// If we want to populate both the original head/belt sections and our new ones, we would need to add some extra logic to determine which item goes in which section. If for example, you have a character template that has a chance of spawning with a helmets and a pair of glasses (both using ATTACH_HAT), 
+// when we "choose" our second ATTACH_HAT item, there's no gurantee it will fit in our new section in which case it will default to the "main" section. So instead of a character spawning with both a helmet and glasses, you might end up with a character that spawns with two helmets and an empty glasses section.
+// This sort of defeats the purpose and so we would need to ensure that when a second item for the same slot is being chosen, it must fit in the new section or it won't be chosen at all.
     const int count = (int)(sizeof(extraSlots) / sizeof(extraSlots[0]));
     for (int i = 0; i < count; ++i)
     {

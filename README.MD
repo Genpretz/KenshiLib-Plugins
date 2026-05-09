@@ -20,15 +20,12 @@ More plugins will be added over time.
 
 ## Compilation
 #### Dependencies:
-  - [KenshiLib v0.1.5](https://github.com/KenshiReclaimer/KenshiLib/releases/tag/v0.1.5)
-    - This repo has problems compiling with newer versions of KenshiLib for various reasons. It isn't impossible, but this repo is easiest to compile when using this version.
-  - Visual Studio 2010 Platform Toolset
-  - Boost v1.60.0
-
+  - [KenshiLib](https://github.com/BFrizzleFoShizzle/KenshiLib)
+  - Visual Studio 2010 SP1 (v100 Platform Toolset)
+        - Downloads available on the Internet Archive
 #### Recommended:
   - [KenshiLib_Examples_deps](https://github.com/BFrizzleFoShizzle/KenshiLib_Examples_deps)
       - This repository includes Boost and KenshiLib as well as a script that sets environment variables associated with the two and used by the project. I'd highly suggest using it when attempting to compile this repo for yourself.
-      - The release containing KenshiLib v0.1.5 seems to have been removed so this would need to be replaced with the version from the previous link.
 
 ## Credits and Acknowledgements
 This project would not be possible without the foundational work done by the Kenshi reverse-engineering community.

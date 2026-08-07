@@ -10,7 +10,6 @@
 #include <kenshi/TitleScreen.h>
 
 static void (*chooseMyClothing_orig)(lektor<GameData*>& gear, GameData* dataList, const std::string& listName, RaceData* race, bool noShoes) = 0;
-static GameData* (*_chooseClothingItemFromList_orig)(GameData* dataList, const std::string& listName, AttachSlot slot, RaceData* race) = 0;
 InventorySection* (*Inventory_getSectionOfType_orig)(Inventory* thisptr, AttachSlot type) = 0;
 void (*Character_NV_init_orig)(Character* thisptr) = 0;
 void (*BaseLayout_initialise_orig)(wraps::BaseLayout*, const std::string&, MyGUI::Widget*, bool, bool) = 0;
@@ -143,7 +142,7 @@ static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, c
     const int count = (int)(sizeof(extraSlots) / sizeof(extraSlots[0]));
     for (int i = 0; i < count; ++i)
     {
-        GameData* item = _chooseClothingItemFromList_orig(dataList, listName, extraSlots[i], race);
+        GameData* item = RootObjectFactory::_chooseClothingItemFromList(dataList, listName, extraSlots[i], race);
 
         if (item)
         {
@@ -152,11 +151,7 @@ static void chooseMyClothing_hook(lektor<GameData*>& gear, GameData* dataList, c
     }
 }
 
-//We include this hook to ensure that we have a pointer to the original _chooseClothingItemFromList function, which we need to call from our chooseMyClothing_hook function.
-static GameData* _chooseClothingItemFromList_hook(GameData* dataList, const std::string& listName, AttachSlot slot, RaceData* race)
-{
-    return _chooseClothingItemFromList_orig(dataList, listName, slot, race);
-}
+
 
 // There are a few different ways we can create the MyGUI widgets needed for our extra inventory sections, but this is the one that I found to be the most reliable.
 // Other methods put your layout file at risk of being overwritten by the game or other mods (specifically UI mods) and that always leads to the game crashing.
@@ -179,49 +174,24 @@ void BaseLayout_initialise_Hook(wraps::BaseLayout* thisptr, const std::string& l
 __declspec(dllexport) void startPlugin()
 {
 	// Hook the Character::_NV_init function to ensure our extra inventory sections are created early enough for all characters.
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-        KenshiLib::GetRealAddress(&Character::_NV_init),
-        &Character_NV_init_hook,
-        &Character_NV_init_orig
-    ))
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Character::_NV_init), &Character_NV_init_hook, &Character_NV_init_orig))
     {
         ErrorLog("Failure hooking Character::_NV_init.");
     }
 
-	// Hook the RootObjectFactory::chooseMyClothing and chooseMyClothingFromList functions to add items for our extra inventory sections when the game spawns clothing for a character.
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-        KenshiLib::GetRealAddress(&RootObjectFactory::chooseMyClothing),
-        &chooseMyClothing_hook,
-        &chooseMyClothing_orig
-    ))
+	// Hook the RootObjectFactory::chooseMyClothing function to add items for our extra inventory sections when spawning clothing.
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&RootObjectFactory::chooseMyClothing), &chooseMyClothing_hook, &chooseMyClothing_orig))
     {
         ErrorLog("Failure hooking RootObjectFactory::chooseMyClothing.");
     }
 
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-        KenshiLib::GetRealAddress(&RootObjectFactory::_chooseClothingItemFromList),
-        &_chooseClothingItemFromList_hook,
-        &_chooseClothingItemFromList_orig
-    ))
-    {
-        ErrorLog("Failure hooking RootObjectFactory::_chooseClothingItemFromList.");
-    }
-
-	// Hook the BaseLayout::initialise function to replace the inventory character window layout with our custom version that has extra inventory sections.
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-        KenshiLib::GetRealAddress(&wraps::BaseLayout::initialise),
-        &BaseLayout_initialise_Hook,
-        &BaseLayout_initialise_orig
-    ))
+	// Hook the BaseLayout::initialise function to inject extra widgets into the inventory window layout.
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&wraps::BaseLayout::initialise), &BaseLayout_initialise_Hook, &BaseLayout_initialise_orig))
     {
         ErrorLog("Failure hooking wraps::BaseLayout::initialise.");
     }
 
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(
-        KenshiLib::GetRealAddress(&Inventory::getSectionOfType),
-        &Inventory_getSectionOfType_Hook,
-        &Inventory_getSectionOfType_orig
-    ))
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&Inventory::getSectionOfType), &Inventory_getSectionOfType_Hook, &Inventory_getSectionOfType_orig))
     {
         ErrorLog("[Extra Inventory Sections] Failure hooking Inventory::getSectionOfType.");
     }

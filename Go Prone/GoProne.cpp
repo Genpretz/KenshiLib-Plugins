@@ -6,141 +6,119 @@
 #include <kenshi/PlayerInterface.h>
 #include <kenshi/InputHandler.h>
 #include <kenshi/Character.h>
-//#include <kenshi/gui/DataPanelGUI.h>
-//#include <kenshi/gui/DataPanelLine.h>
+#include <kenshi/gui/DataPanelGUI.h>
+#include <kenshi/gui/DataPanelLine.h>
+#include <kenshi/gui/ForgottenGUI.h>
+#include <kenshi/gui/MainBarGUI.h>
+#include <kenshi/gui/OrdersPanel.h>
+#include <mygui/MyGUI_Button.h>
 
-//#include <boost/locale.hpp>
+#include <boost/locale.hpp>
 
 // Global references declared in KenshiLib's Globals.h
 // GameWorld* ou;
 // InputHandler* key;
+// ForgottenGUI* gui;
 
-static const DWORD DOUBLE_TAP_WINDOW_MS = 250;
-
-static void ToggleCharacterProneState(hand* handle)
+static void SetCharacterProneState(const hand& handle, bool goProne)
 {
-    if (!ou || !ou->player || !handle) return;
-
-    Character* c = handle->getCharacter();
+    Character* c = handle.getCharacter();
     if (!c) return;
 
-    switch (c->_NV_getProneState())
+    ProneState currentState = c->getProneState();
+    if (currentState == PS_PLAYING_DEAD || currentState == PS_CRIPPLED || currentState == PS_KO) return;
+
+    if (goProne)
     {
-    case PS_NORMAL:
         c->setStealthMode(true);
-        c->_NV_setProneState(PS_STAYING_LOW);
-        break;
-
-    case PS_STAYING_LOW:
-        c->_NV_setProneState(PS_NORMAL);
-        c->setStealthMode(false);
-        break;
-
-    case PS_PLAYING_DEAD:
-    case PS_CRIPPLED:
-    case PS_KO:
-        break;
-
-    default:
-        break;
+        c->setProneState(PS_STAYING_LOW);
+    }
+    else
+    {
+        c->setProneState(PS_NORMAL);
+        c->setStealthMode(true); // Keep stealth mode on when standing up, otherwise the character will stand up and become visible to enemies.
     }
 }
 
-static void CheckSneakDoubleTap()
+static void CheckToggleProne(PlayerInterface* player, InputHandler& keyHandler)
 {
-    if (!key) return;
+    if (!player || !keyHandler.events.size()) return;
 
-    auto* cmd = key->getCommand("toggle_sneak");
+    InputHandler::Command* cmd = keyHandler.getCommand("toggle_prone");
     if (!cmd) return;
 
-    if (key->events.find(cmd) == key->events.end())
-        return;
+    if (keyHandler.events.find(cmd) == keyHandler.events.end()) return;
 
-    static DWORD lastTapTime = 0;
-    const DWORD now = GetTickCount();
-    const DWORD delta = now - lastTapTime;
-    lastTapTime = now;
+    // If any selected character is currently laying low, stand them up; otherwise, go prone
+    bool targetProne = !player->selectedCharactersLayingLow();
 
-    if (delta > 0 && delta <= DOUBLE_TAP_WINDOW_MS)
+    const ogre_unordered_set<hand>::type& chars = player->selectedCharacters;
+    for (ogre_unordered_set<hand>::type::const_iterator it = chars.begin(); it != chars.end(); ++it)
     {
-        if (!ou || !ou->player) return;
+        SetCharacterProneState(*it, targetProne);
+    }
 
-        ogre_unordered_set<hand>::type chars = ou->player->selectedCharacters;
-
-        for (ogre_unordered_set<hand>::type::iterator it = chars.begin();
-            it != chars.end();
-            ++it)
+    if (gui && gui->mainbar && gui->mainbar->ordersDataPanel && gui->mainbar->ordersDataPanel->stealthCheckBox)
+    {
+        Character* focused = player->selectedCharacter.getCharacter();
+        if (!focused && !chars.empty())
         {
-            hand h = *it;
-            ToggleCharacterProneState(&h);
+            focused = chars.begin()->getCharacter();
+        }
+
+        if (focused)
+        {
+            gui->mainbar->ordersDataPanel->stealthCheckBox->setStateSelected(focused->isStealthMode());
+        }
+        else
+        {
+            gui->mainbar->ordersDataPanel->stealthCheckBox->setStateSelected(targetProne);
         }
     }
 }
 
-// static void CheckToggleProne()
-// {
-//     if (!key) return;
-//
-//     auto* cmd = key->getCommand("toggle_prone");
-//     if (!cmd) return;
-//
-//     if (key->events.find(cmd) == key->events.end())
-//         return;
-//
-//     if (!ou || !ou->player) return;
-//
-//     ogre_unordered_set<hand>::type chars = ou->player->selectedCharacters;
-//
-//     for (ogre_unordered_set<hand>::type::iterator it = chars.begin();
-//         it != chars.end();
-//         ++it)
-//     {
-// 		hand h = *it;
-//         ToggleCharacterProneState(&h);
-//     }
-// }
-
-//void (*DatapanelGUI_addCustomLine_orig)(DatapanelGUI* thisptr, DataPanelLine* line);
-//void DatapanelGUI_addCustomLine_hook(DatapanelGUI* thisptr, DataPanelLine* line)
-//{
-//    DatapanelGUI_addCustomLine_orig(thisptr, line);
-//    if (line->s1 == "Toggle stealth mode")
-//        thisptr->addCustomLine(new DataPanelLine_KeyConfig("toggle_prone", boost::locale::gettext("Toggle Prone"), 25));
-//}
-//
-//void (*InputHandler_loadConfig_orig)(InputHandler* thisptr);
-//void InputHandler_loadConfig_hook(InputHandler* thisptr)
-//{
-//    thisptr->addCommand("toggle_prone", false, OIS::KeyCode::KC_UNASSIGNED, OIS::KeyCode::KC_UNASSIGNED, InputHandler::NONE_MASK, InputHandler::GLOBAL);
-//    InputHandler_loadConfig_orig(thisptr);
-//}
-
-static void (*InputHandler_keyDownEvent_orig)(InputHandler*, OIS::KeyCode) = nullptr;
-static void InputHandler_keyDownEvent_hook(InputHandler* thisptr, OIS::KeyCode keyCode)
+void (*DatapanelGUI_addCustomLine_orig)(DatapanelGUI* thisptr, DataPanelLine* line);
+void DatapanelGUI_addCustomLine_hook(DatapanelGUI* thisptr, DataPanelLine* line)
 {
-    if (InputHandler_keyDownEvent_orig)
-        InputHandler_keyDownEvent_orig(thisptr, keyCode);
-
-    if (ou && ou->player && ou->player->selectedCharacter)
+    DatapanelGUI_addCustomLine_orig(thisptr, line);
+    if (line->s1 == "Toggle stealth mode" || 
+        (line->classType == DataPanelLine::DPL_CUSTOM && static_cast<DataPanelLine_KeyConfig*>(line)->command == "toggle_sneak"))
     {
-        CheckSneakDoubleTap();
+        thisptr->addCustomLine(new DataPanelLine_KeyConfig("toggle_prone", boost::locale::gettext("Toggle prone"), 25));
     }
 }
 
-__declspec(dllexport) void __cdecl startPlugin()
+void (*InputHandler_loadConfig_orig)(InputHandler* thisptr);
+void InputHandler_loadConfig_hook(InputHandler* thisptr)
 {
-    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&InputHandler::keyDownEvent), InputHandler_keyDownEvent_hook, &InputHandler_keyDownEvent_orig))
+    thisptr->addCommand("toggle_prone", 0, OIS::KC_UNASSIGNED, OIS::KC_UNASSIGNED, InputHandler::NONE_MASK, InputHandler::GLOBAL);
+    InputHandler_loadConfig_orig(thisptr);
+}
+
+void (*PlayerInterface_playerControl_orig)(PlayerInterface* thisptr, InputHandler& key);
+void PlayerInterface_playerControl_hook(PlayerInterface* thisptr, InputHandler& key)
+{
+    PlayerInterface_playerControl_orig(thisptr, key);
+    CheckToggleProne(thisptr, key);
+}
+
+__declspec(dllexport) void startPlugin()
+{
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&PlayerInterface::playerControl), PlayerInterface_playerControl_hook, &PlayerInterface_playerControl_orig))
     {
-        ErrorLog("Could not hook InputHandler::keyDownEvent");
+        ErrorLog("Could not hook PlayerInterface::playerControl");
     }
-    /*if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&InputHandler::loadConfig), InputHandler_loadConfig_hook, &InputHandler_loadConfig_orig))
+    if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&InputHandler::loadConfig), InputHandler_loadConfig_hook, &InputHandler_loadConfig_orig))
     {
         ErrorLog("Could not hook InputHandler::loadConfig");
     }
     if (KenshiLib::SUCCESS != KenshiLib::AddHook(KenshiLib::GetRealAddress(&DatapanelGUI::addCustomLine), DatapanelGUI_addCustomLine_hook, &DatapanelGUI_addCustomLine_orig))
     {
         ErrorLog("Could not hook DatapanelGUI::addCustomLine");
-    }*/
+    }
 
-    //InputHandler_loadConfig_orig(key);
+    if (key)
+    {
+        InputHandler_loadConfig_hook(key);
+    }
 }
